@@ -1,0 +1,220 @@
+.testimonial-slider {
+    max-width: 1200px;
+    margin: 4rem auto;
+    padding: 0 2rem;
+    text-align: center;
+  }
+  
+  .ts-heading {
+    font-size: 2rem;
+    color: #1a2b49; /* Suesland Academy theme color */
+    font-weight: 700;
+    margin-bottom: 2.5rem;
+    position: relative;
+  }
+  
+  .ts-heading::after {
+    content: "";
+    display: block;
+    width: 60px;
+    height: 3px;
+    background-color: #48bb78; /* Green accent */
+    margin: 0.5rem auto 0;
+  }
+  
+  /* Slider Container */
+  .ts-container {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 2rem 4rem;
+  }
+  
+  /* Testimonial Content */
+  .ts-content {
+    background-color: #f7fafc;
+    border-radius: 12px;
+    padding: 2rem;
+    max-width: 800px;
+    position: relative;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+    transition: opacity 0.3s ease;
+  }
+  
+  .ts-quote-icon {
+    font-size: 2rem;
+    color: #48bb78;
+    margin-bottom: 1rem;
+  }
+  
+  .ts-quote {
+    font-size: 1.25rem;
+    color: #4a5568;
+    line-height: 1.6;
+    margin-bottom: 1.5rem;
+    font-style: italic;
+  }
+  
+  .ts-name {
+    font-size: 1.5rem;
+    color: #1a2b49;
+    font-weight: 600;
+    margin-bottom: 0.5rem;
+  }
+  
+  .ts-role {
+    font-size: 1rem;
+    color: #48bb78;
+    font-weight: 500;
+  }
+  
+  /* Navigation Buttons */
+  .ts-nav-button {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    background-color: #ffffff;
+    border: none;
+    border-radius: 50%;
+    width: 40px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.25rem;
+    color: #1a2b49;
+    cursor: pointer;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    transition: background-color 0.3s ease, transform 0.3s ease;
+  }
+  
+  .ts-nav-button:hover {
+    background-color: #48bb78;
+    color: #ffffff;
+    transform: translateY(-50%) scale(1.1);
+  }
+  
+  .ts-nav-left {
+    left: 0;
+  }
+  
+  .ts-nav-right {
+    right: 0;
+  }
+  
+  /* Navigation Dots */
+  .ts-dots {
+    display: flex;
+    justify-content: center;
+    gap: 0.5rem;
+    margin-top: 1.5rem;
+  }
+  
+  .ts-dot {
+    width: 10px;
+    height: 10px;
+    background-color: #d1d5db;
+    border-radius: 50%;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+  }
+  
+  .ts-dot.active {
+    background-color: #48bb78;
+  }
+  
+  .ts-dot:hover {
+    background-color: #38a169;
+  }
+  
+  /* Responsive Adjustments */
+  @media (max-width: 768px) {
+    .testimonial-slider {
+      padding: 0 1.5rem;
+      margin: 3rem auto;
+    }
+  
+    .ts-heading {
+      font-size: 1.75rem;
+    }
+  
+    .ts-heading::after {
+      width: 50px;
+    }
+  
+    .ts-container {
+      padding: 1.5rem 3rem;
+    }
+  
+    .ts-content {
+      padding: 1.5rem;
+    }
+  
+    .ts-quote {
+      font-size: 1.1rem;
+    }
+  
+    .ts-name {
+      font-size: 1.25rem;
+    }
+  
+    .ts-role {
+      font-size: 0.9rem;
+    }
+  
+    .ts-nav-button {
+      width: 35px;
+      height: 35px;
+      font-size: 1rem;
+    }
+  
+    .ts-nav-left {
+      left: 10px;
+    }
+  
+    .ts-nav-right {
+      right: 10px;
+    }
+  }
+  
+  @media (max-width: 480px) {
+    .testimonial-slider {
+      padding: 0 1rem;
+      margin: 2rem auto;
+    }
+  
+    .ts-heading {
+      font-size: 1.5rem;
+    }
+  
+    .ts-heading::after {
+      width: 40px;
+    }
+  
+    .ts-container {
+      padding: 1rem 2rem;
+    }
+  
+    .ts-content {
+      padding: 1rem;
+    }
+  
+    .ts-quote {
+      font-size: 1rem;
+    }
+  
+    .ts-name {
+      font-size: 1.1rem;
+    }
+  
+    .ts-role {
+      font-size: 0.85rem;
+    }
+  
+    .ts-nav-button {
+      width: 30px;
+      height: 30px;
+      font-size: 0.9rem;
+    }
+  }

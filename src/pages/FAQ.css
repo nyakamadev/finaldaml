@@ -1,0 +1,116 @@
+/* FAQ Page Styling */
+.faq-page {
+    font-family: Arial, sans-serif;
+    color: #202124;
+    padding: 3rem 5%;
+    background-color: #ffffff;
+  }
+  
+  /* Header Section */
+  .faq-header {
+    text-align: center;
+    margin-bottom: 3rem;
+  }
+  
+  .faq-header h1 {
+    font-size: 2.5rem;
+    font-weight: bold;
+  }
+  
+  .faq-header .faq-highlight {
+    color: #4285f4;
+  }
+  
+  .faq-header h2 {
+    font-size: 1.5rem;
+    font-weight: normal;
+    color: #5f6368;
+    margin-top: 1rem;
+  }
+  
+  /* Accordion Section */
+  .faq-accordion {
+    max-width: 800px;
+    margin: 0 auto;
+  }
+  
+  .faq-item {
+    border-bottom: 1px solid #e0e0e0;
+    padding: 1rem 0;
+  }
+  
+  .faq-question {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 1rem;
+    font-weight: bold;
+    cursor: pointer;
+  }
+  
+  .faq-question:hover {
+    color: #4285f4;
+  }
+  
+  .faq-icon {
+    font-size: 1.2rem;
+    font-weight: bold;
+    color: #4285f4;
+  }
+  
+  .faq-answer {
+    margin-top: 0.5rem;
+    font-size: 0.9rem;
+    color: #5f6368;
+    line-height: 1.6;
+  }
+  
+  /* Join the Conversation Section */
+  .faq-join-conversation {
+    text-align: center;
+    margin-top: 3rem;
+  }
+  
+  .faq-join-conversation h2 {
+    font-size: 2rem;
+    margin-bottom: 2rem;
+  }
+  
+  .join-cards {
+    display: flex;
+    justify-content: center;
+    gap: 2rem;
+    flex-wrap: wrap;
+  }
+  
+  .join-card {
+    max-width: 450px; /* Increased width */
+    padding: 2rem; /* More padding for better design */
+    border: 1px solid #e0e0e0;
+    border-radius: 8px;
+    background-color: #ffffff;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    text-align: left;
+    flex: 1 1 calc(50% - 2rem); /* Make cards larger and fit two per row */
+  }
+  
+  .join-card h3 {
+    font-size: 1.4rem; /* Slightly larger heading */
+    margin-bottom: 1rem;
+  }
+  
+  .join-card p {
+    font-size: 1rem; /* Larger text */
+    line-height: 1.6;
+    color: #5f6368;
+  }
+  
+  .join-link {
+    display: block;
+    text-decoration: none;
+    font-size: 1.5rem;
+    color: #4285f4;
+    font-weight: bold;
+    text-align: right;
+  }
+  
