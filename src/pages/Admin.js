@@ -9,7 +9,8 @@ import io from "socket.io-client";
 import { 
   FiHome, FiUsers, FiCalendar, FiBell, FiMessageSquare, 
   FiSettings, FiLogOut, FiPlus, FiEdit2, FiTrash2, FiSearch,
-  FiChevronLeft, FiChevronRight, FiUser, FiBookmark, FiClipboard, FiDollarSign
+  FiChevronLeft, FiChevronRight, FiUser, FiBookmark, FiClipboard, FiDollarSign,
+  FiChevronUp, FiChevronDown
 } from "react-icons/fi";
 import "./Admin.css";
 
@@ -32,35 +33,36 @@ const Admin = () => {
     staffCount: 0,
     attendance: { presentCount: 0, absentCount: 0, dailyAttendance: [] },
     financialData: [],
+    adminStats: { pendingLeaveRequests: 0, unpaidFees: 0, overdueLoans: 0 },
   });
   const [events, setEvents] = useState([]);
   const [announcements, setAnnouncements] = useState([]);
   const [teachers, setTeachers] = useState([]);
   const [students, setStudents] = useState([]);
-  const [parents, setParents] = useState([]);
-  const [staff, setStaff] = useState([]);
-  const [calendarEvents, setCalendarEvents] = useState([]);
+  const [users, setUsers] = useState([]);
+  const [leaveRequests, setLeaveRequests] = useState([]);
+  const [auditLogs, setAuditLogs] = useState([]);
+  const [calendarEvents, setCalendarEvents] = useState([]); // Initialize calendarEvents
   
   // UI state
-  const [showHomeworkModal, setShowHomeworkModal] = useState(false);
   const [showTeacherModal, setShowTeacherModal] = useState(false);
   const [showStudentModal, setShowStudentModal] = useState(false);
   const [showEventModal, setShowEventModal] = useState(false);
   const [showAnnouncementModal, setShowAnnouncementModal] = useState(false);
+  const [showUserModal, setShowUserModal] = useState(false);
   const [sidebarCollapsed, setSidebarCollapsed] = useState(false);
   const [activeMenu, setActiveMenu] = useState("dashboard");
   const [notifications, setNotifications] = useState([]);
   const [unreadNotifications, setUnreadNotifications] = useState(0);
   
-  // Form states
-  const [homeworkForm, setHomeworkForm] = useState({
-    subject: "",
-    title: "",
-    description: "",
-    dueDate: "",
-    classId: "",
-  });
+  // Search and Pagination state
+  const [teacherSearch, setTeacherSearch] = useState("");
+  const [teacherPage, setTeacherPage] = useState(1);
+  const [studentSearch, setStudentSearch] = useState("");
+  const [studentPage, setStudentPage] = useState(1);
+  const itemsPerPage = 5;
   
+  // Form states
   const [teacherForm, setTeacherForm] = useState({
     name: "",
     subject: "",
@@ -93,39 +95,66 @@ const Admin = () => {
     priority: "normal",
   });
   
+  const [userForm, setUserForm] = useState({
+    email: "",
+    password: "",
+    role: "teacher",
+  });
+  
   // Editing states
   const [editingTeacher, setEditingTeacher] = useState(null);
   const [editingStudent, setEditingStudent] = useState(null);
   const [editingEvent, setEditingEvent] = useState(null);
   const [editingAnnouncement, setEditingAnnouncement] = useState(null);
+  const [editingUser, setEditingUser] = useState(null);
 
   // Fetch all data
   const fetchDashboardData = useCallback(async () => {
     try {
-      const [statsRes, eventsRes, announcementsRes, teachersRes, studentsRes] = 
-        await Promise.all([
-          fetch("http://localhost:5000/api/dashboard-stats", {
-            headers: { Authorization: `Bearer ${token}` },
-          }),
-          fetch("http://localhost:5000/api/events", {
-            headers: { Authorization: `Bearer ${token}` },
-          }),
-          fetch("http://localhost:5000/api/announcements", {
-            headers: { Authorization: `Bearer ${token}` },
-          }),
-          fetch("http://localhost:5000/api/teachers", {
-            headers: { Authorization: `Bearer ${token}` },
-          }),
-          fetch("http://localhost:5000/api/students", {
-            headers: { Authorization: `Bearer ${token}` },
-          }),
-        ]);
+      const [
+        statsRes, 
+        eventsRes, 
+        announcementsRes, 
+        teachersRes, 
+        studentsRes, 
+        usersRes, 
+        leaveRequestsRes,
+        auditLogsRes
+      ] = await Promise.all([
+        fetch("http://localhost:5000/api/dashboard-stats", {
+          headers: { Authorization: `Bearer ${token}` },
+        }),
+        fetch("http://localhost:5000/api/events", {
+          headers: { Authorization: `Bearer ${token}` },
+        }),
+        fetch("http://localhost:5000/api/announcements", {
+          headers: { Authorization: `Bearer ${token}` },
+        }),
+        fetch("http://localhost:5000/api/teachers", {
+          headers: { Authorization: `Bearer ${token}` },
+        }),
+        fetch("http://localhost:5000/api/students", {
+          headers: { Authorization: `Bearer ${token}` },
+        }),
+        fetch("http://localhost:5000/api/users", {
+          headers: { Authorization: `Bearer ${token}` },
+        }),
+        fetch("http://localhost:5000/api/leave-requests", {
+          headers: { Authorization: `Bearer ${token}` },
+        }),
+        fetch("http://localhost:5000/api/audit-logs", {
+          headers: { Authorization: `Bearer ${token}` },
+        }),
+      ]);
 
       const statsData = await statsRes.json();
       const eventsData = await eventsRes.json();
       const announcementsData = await announcementsRes.json();
       const teachersData = await teachersRes.json();
       const studentsData = await studentsRes.json();
+      const usersData = await usersRes.json();
+      const leaveRequestsData = await leaveRequestsRes.json();
+      const auditLogsData = await auditLogsRes.json();
 
       if (statsRes.ok) setDashboardStats(statsData);
       if (eventsRes.ok) {
@@ -140,7 +169,9 @@ const Admin = () => {
       if (announcementsRes.ok) setAnnouncements(announcementsData);
       if (teachersRes.ok) setTeachers(teachersData.teachers || []);
       if (studentsRes.ok) setStudents(studentsData.students || []);
-
+      if (usersRes.ok) setUsers(usersData);
+      if (leaveRequestsRes.ok) setLeaveRequests(leaveRequestsData);
+      if (auditLogsRes.ok) setAuditLogs(auditLogsData);
     } catch (error) {
       console.error("Error fetching dashboard data:", error);
     }
@@ -188,11 +219,16 @@ const Admin = () => {
       staffCount: 0,
       attendance: { presentCount: 0, absentCount: 0, dailyAttendance: [] },
       financialData: [],
+      adminStats: { pendingLeaveRequests: 0, unpaidFees: 0, overdueLoans: 0 },
     });
     setEvents([]);
     setAnnouncements([]);
     setTeachers([]);
     setStudents([]);
+    setUsers([]);
+    setLeaveRequests([]);
+    setAuditLogs([]);
+    setCalendarEvents([]); // Reset calendarEvents on logout
   };
 
   // Set up Socket.IO for real-time updates
@@ -204,11 +240,8 @@ const Admin = () => {
         setNotifications(prev => [notification, ...prev]);
         setUnreadNotifications(prev => prev + 1);
       });
-      
-      socket.on("newAttendance", (data) => {
-        const notification = `New attendance: ${data.status} for student ${data.studentId}`;
-        setNotifications(prev => [notification, ...prev]);
-        setUnreadNotifications(prev => prev + 1);
+
+      socket.on("newAttendance", (attendance) => {
         fetchDashboardData();
       });
 
@@ -216,98 +249,12 @@ const Admin = () => {
     }
   }, [token, fetchDashboardData]);
 
-  // Fetch data on component mount or when token/role changes
+  // Fetch data on mount if authenticated
   useEffect(() => {
     if (token) {
       fetchDashboardData();
     }
   }, [token, fetchDashboardData]);
-
-  // Chart Data Configurations
-  const attendanceDoughnutData = {
-    labels: ["Present", "Absent"],
-    datasets: [{
-      data: [dashboardStats.attendance.presentCount, dashboardStats.attendance.absentCount],
-      backgroundColor: ["#4ade80", "#f87171"],
-      hoverBackgroundColor: ["#22c55e", "#ef4444"],
-      borderWidth: 0,
-    }],
-  };
-
-  const dailyAttendanceBarData = {
-    labels: dashboardStats.attendance.dailyAttendance.map(day => moment(day._id).format("ddd")),
-    datasets: [
-      {
-        label: "Present",
-        data: dashboardStats.attendance.dailyAttendance.map(day => day.present),
-        backgroundColor: "#4ade80",
-        borderRadius: 6,
-      },
-      {
-        label: "Absent",
-        data: dashboardStats.attendance.dailyAttendance.map(day => day.absent),
-        backgroundColor: "#f87171",
-        borderRadius: 6,
-      },
-    ],
-  };
-
-  const financeLineData = {
-    labels: dashboardStats.financialData.map(data => data._id),
-    datasets: [{
-      label: "Income",
-      data: dashboardStats.financialData.map(data => data.total),
-      borderColor: "#60a5fa",
-      backgroundColor: "rgba(96, 165, 250, 0.1)",
-      fill: true,
-      tension: 0.3,
-    }],
-  };
-
-  const chartOptions = {
-    animation: {
-      duration: 1000,
-      easing: "easeInOutQuart",
-    },
-    plugins: {
-      legend: { 
-        position: "top",
-        labels: {
-          usePointStyle: true,
-          padding: 20,
-        }
-      },
-      tooltip: { 
-        enabled: true,
-        backgroundColor: "#1e293b",
-        titleFont: { size: 14 },
-        bodyFont: { size: 12 },
-        padding: 12,
-        cornerRadius: 8,
-      },
-    },
-    maintainAspectRatio: false,
-    scales: {
-      y: {
-        grid: {
-          drawBorder: false,
-          color: "#e2e8f0",
-        },
-        ticks: {
-          padding: 10,
-        }
-      },
-      x: {
-        grid: {
-          display: false,
-          drawBorder: false,
-        },
-        ticks: {
-          padding: 10,
-        }
-      }
-    }
-  };
 
   // CRUD Operations for Teachers
   const handleTeacherSubmit = async (e) => {
@@ -351,7 +298,7 @@ const Admin = () => {
       name: teacher.name,
       subject: teacher.subject,
       email: teacher.email,
-      phone: teacher.phone,
+      phone: teacher.phone || "",
       address: teacher.address || "",
       qualification: teacher.qualification || "",
     });
@@ -413,9 +360,9 @@ const Admin = () => {
     setStudentForm({
       name: student.name,
       grade: student.grade,
-      parentName: student.parentName || "",
+      parentName: student.parent || "",
       email: student.email,
-      phone: student.phone,
+      phone: student.phone || "",
       address: student.address || "",
     });
     setShowStudentModal(true);
@@ -469,6 +416,17 @@ const Admin = () => {
     }
   };
 
+  const handleEventEdit = (event) => {
+    setEditingEvent(event);
+    setEventForm({
+      title: event.title,
+      date: moment(event.date).format("YYYY-MM-DD"),
+      description: event.description,
+      location: event.location || "",
+    });
+    setShowEventModal(true);
+  };
+
   const handleEventDelete = async (id) => {
     if (window.confirm("Are you sure you want to delete this event?")) {
       try {
@@ -517,6 +475,17 @@ const Admin = () => {
     }
   };
 
+  const handleAnnouncementEdit = (announcement) => {
+    setEditingAnnouncement(announcement);
+    setAnnouncementForm({
+      title: announcement.title,
+      content: announcement.content,
+      date: moment(announcement.date).format("YYYY-MM-DD"),
+      priority: announcement.priority || "normal",
+    });
+    setShowAnnouncementModal(true);
+  };
+
   const handleAnnouncementDelete = async (id) => {
     if (window.confirm("Are you sure you want to delete this announcement?")) {
       try {
@@ -531,75 +500,86 @@ const Admin = () => {
     }
   };
 
-  // Homework Handler for Teachers
-  const handleHomeworkSubmit = async (e) => {
+  // CRUD Operations for Users
+  const handleUserSubmit = async (e) => {
     e.preventDefault();
     try {
-      await fetch("http://localhost:5000/api/homework", {
-        method: "POST",
+      const method = editingUser ? "PUT" : "POST";
+      const url = editingUser 
+        ? `http://localhost:5000/api/users/${editingUser._id}`
+        : "http://localhost:5000/api/users";
+      
+      const response = await fetch(url, {
+        method,
         headers: {
           "Content-Type": "application/json",
           Authorization: `Bearer ${token}`,
         },
-        body: JSON.stringify(homeworkForm),
+        body: JSON.stringify(userForm),
       });
-      setShowHomeworkModal(false);
-      setHomeworkForm({
-        subject: "",
-        title: "",
-        description: "",
-        dueDate: "",
-        classId: "",
-      });
-      fetchDashboardData();
+      
+      if (response.ok) {
+        setShowUserModal(false);
+        setEditingUser(null);
+        setUserForm({
+          email: "",
+          password: "",
+          role: "teacher",
+        });
+        fetchDashboardData();
+      }
     } catch (error) {
-      console.error("Error saving homework:", error);
+      console.error("Error saving user:", error);
     }
   };
 
-  // Render Dashboard Based on Role
-  const renderDashboard = () => {
-    if (!token) {
-      return (
-        <div className="login-container">
-          <div className="login-card">
-            <h2>School Management System</h2>
-            <form onSubmit={handleLogin}>
-              <div className="form-group">
-                <label>Email</label>
-                <input type="email" name="email" required />
-              </div>
-              <div className="form-group">
-                <label>Password</label>
-                <input type="password" name="password" required />
-              </div>
-              <button type="submit" className="btn btn-primary">Login</button>
-            </form>
-            <div className="test-credentials">
-              <h4>Test Credentials:</h4>
-              <ul>
-                <li><strong>Admin:</strong> admin@school.com / admin123</li>
-                <li><strong>Teacher:</strong> teacher@school.com / teacher123</li>
-                <li><strong>Student:</strong> student@school.com / student123</li>
-              </ul>
-            </div>
-          </div>
-        </div>
-      );
-    }
+  const handleUserEdit = (user) => {
+    setEditingUser(user);
+    setUserForm({
+      email: user.email,
+      password: "",
+      role: user.role,
+    });
+    setShowUserModal(true);
+  };
 
-    switch (role) {
-      case "admin":
-        return renderAdminDashboard();
-      case "teacher":
-        return renderTeacherDashboard();
-      case "student":
-        return renderStudentDashboard();
-      default:
-        return <div>Unauthorized access</div>;
+  const handleUserDelete = async (id) => {
+    if (window.confirm("Are you sure you want to delete this user?")) {
+      try {
+        await fetch(`http://localhost:5000/api/users/${id}`, {
+          method: "DELETE",
+          headers: { Authorization: `Bearer ${token}` },
+        });
+        fetchDashboardData();
+      } catch (error) {
+        console.error("Error deleting user:", error);
+      }
     }
   };
 
+  // Pagination for Teachers
+  const filteredTeachers = teachers.filter(teacher =>
+    teacher.name.toLowerCase().includes(teacherSearch.toLowerCase()) ||
+    teacher.email.toLowerCase().includes(teacherSearch.toLowerCase())
+  );
+  const totalTeacherPages = Math.ceil(filteredTeachers.length / itemsPerPage);
+  const paginatedTeachers = filteredTeachers.slice(
+    (teacherPage - 1) * itemsPerPage,
+    teacherPage * itemsPerPage
+  );
+
+  // Pagination for Students
+  const filteredStudents = students.filter(student =>
+    student.name.toLowerCase().includes(studentSearch.toLowerCase()) ||
+    student.email.toLowerCase().includes(studentSearch.toLowerCase())
+  );
+  const totalStudentPages = Math.ceil(filteredStudents.length / itemsPerPage);
+  const paginatedStudents = filteredStudents.slice(
+    (studentPage - 1) * itemsPerPage,
+    studentPage * itemsPerPage
+  );
+
+  // Render Admin Dashboard
   const renderAdminDashboard = () => (
     <>
       <div className="dashboard-header">
@@ -630,14 +610,55 @@ const Admin = () => {
             <span className="stat-value">{dashboardStats.teacherCount}</span>
           </div>
         </div>
+        <div className="stat-card bg-emerald-100">
+          <div className="stat-icon">
+            <FiClipboard size={24} />
+          </div>
+          <div className="stat-content">
+            <span className="stat-label">Pending Leave Requests</span>
+            <span className="stat-value">{dashboardStats.adminStats?.pendingLeaveRequests || 0}</span>
+          </div>
+        </div>
+        <div className="stat-card bg-red-100">
+          <div className="stat-icon">
+            <FiDollarSign size={24} />
+          </div>
+          <div className="stat-content">
+            <span className="stat-label">Unpaid Fees</span>
+            <span className="stat-value">{dashboardStats.adminStats?.unpaidFees || 0}</span>
+          </div>
+        </div>
+        <div className="stat-card bg-yellow-100">
+          <div className="stat-icon">
+            <FiBookmark size={24} />
+          </div>
+          <div className="stat-content">
+            <span className="stat-label">Overdue Loans</span>
+            <span className="stat-value">{dashboardStats.adminStats?.overdueLoans || 0}</span>
+          </div>
+        </div>
       </div>
 
       <div className="dashboard-section">
         <div className="section-header">
           <h2>Teachers Management</h2>
-          <button className="btn btn-primary" onClick={() => setShowTeacherModal(true)}>
-            <FiPlus size={16} /> Add Teacher
-          </button>
+          <div className="section-actions">
+            <div className="search-bar">
+              <FiSearch size={16} />
+              <input
+                type="text"
+                placeholder="Search teachers..."
+                value={teacherSearch}
+                onChange={(e) => {
+                  setTeacherSearch(e.target.value);
+                  setTeacherPage(1);
+                }}
+              />
+            </div>
+            <button className="btn btn-primary" onClick={() => setShowTeacherModal(true)}>
+              <FiPlus size={16} /> Add Teacher
+            </button>
+          </div>
         </div>
         <div className="table-container">
           <table className="data-table">
@@ -645,26 +666,18 @@ const Admin = () => {
               <tr>
                 <th>Name</th>
                 <th>Subject</th>
-                <th>Contact</th>
+                <th>Email</th>
+                <th>Phone</th>
                 <th>Actions</th>
               </tr>
             </thead>
             <tbody>
-              {teachers.map((teacher) => (
+              {paginatedTeachers.map((teacher) => (
                 <tr key={teacher._id}>
-                  <td>
-                    <div className="user-info">
-                      <div className="avatar">
-                        {teacher.name.charAt(0)}
-                      </div>
-                      <div>
-                        <p className="user-name">{teacher.name}</p>
-                        <p className="user-email">{teacher.email}</p>
-                      </div>
-                    </div>
-                  </td>
+                  <td>{teacher.name}</td>
                   <td>{teacher.subject}</td>
-                  <td>{teacher.phone}</td>
+                  <td>{teacher.email}</td>
+                  <td>{teacher.phone || "N/A"}</td>
                   <td>
                     <div className="actions">
                       <button 
@@ -685,15 +698,46 @@ const Admin = () => {
               ))}
             </tbody>
           </table>
+          <div className="pagination">
+            <button
+              className="btn btn-secondary"
+              onClick={() => setTeacherPage(prev => Math.max(prev - 1, 1))}
+              disabled={teacherPage === 1}
+            >
+              <FiChevronLeft size={16} /> Previous
+            </button>
+            <span>Page {teacherPage} of {totalTeacherPages}</span>
+            <button
+              className="btn btn-secondary"
+              onClick={() => setTeacherPage(prev => Math.min(prev + 1, totalTeacherPages))}
+              disabled={teacherPage === totalTeacherPages}
+            >
+              Next <FiChevronRight size={16} />
+            </button>
+          </div>
         </div>
       </div>
 
       <div className="dashboard-section">
         <div className="section-header">
           <h2>Students Management</h2>
-          <button className="btn btn-primary" onClick={() => setShowStudentModal(true)}>
-            <FiPlus size={16} /> Add Student
-          </button>
+          <div className="section-actions">
+            <div className="search-bar">
+              <FiSearch size={16} />
+              <input
+                type="text"
+                placeholder="Search students..."
+                value={studentSearch}
+                onChange={(e) => {
+                  setStudentSearch(e.target.value);
+                  setStudentPage(1);
+                }}
+              />
+            </div>
+            <button className="btn btn-primary" onClick={() => setShowStudentModal(true)}>
+              <FiPlus size={16} /> Add Student
+            </button>
+          </div>
         </div>
         <div className="table-container">
           <table className="data-table">
@@ -702,27 +746,17 @@ const Admin = () => {
                 <th>Name</th>
                 <th>Grade</th>
                 <th>Parent</th>
-                <th>Contact</th>
+                <th>Email</th>
                 <th>Actions</th>
               </tr>
             </thead>
             <tbody>
-              {students.map((student) => (
+              {paginatedStudents.map((student) => (
                 <tr key={student._id}>
-                  <td>
-                    <div className="user-info">
-                      <div className="avatar">
-                        {student.name.charAt(0)}
-                      </div>
-                      <div>
-                        <p className="user-name">{student.name}</p>
-                        <p className="user-email">{student.email}</p>
-                      </div>
-                    </div>
-                  </td>
+                  <td>{student.name}</td>
                   <td>{student.grade}</td>
-                  <td>{student.parentName || "N/A"}</td>
-                  <td>{student.phone}</td>
+                  <td>{student.parent || "N/A"}</td>
+                  <td>{student.email}</td>
                   <td>
                     <div className="actions">
                       <button 
@@ -743,6 +777,67 @@ const Admin = () => {
               ))}
             </tbody>
           </table>
+          <div className="pagination">
+            <button
+              className="btn btn-secondary"
+              onClick={() => setStudentPage(prev => Math.max(prev - 1, 1))}
+              disabled={studentPage === 1}
+            >
+              <FiChevronLeft size={16} /> Previous
+            </button>
+            <span>Page {studentPage} of {totalStudentPages}</span>
+            <button
+              className="btn btn-secondary"
+              onClick={() => setStudentPage(prev => Math.min(prev + 1, totalStudentPages))}
+              disabled={studentPage === totalStudentPages}
+            >
+              Next <FiChevronRight size={16} />
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <div className="dashboard-section">
+        <div className="section-header">
+          <h2>User Management</h2>
+          <button className="btn btn-primary" onClick={() => setShowUserModal(true)}>
+            <FiPlus size={16} /> Add User
+          </button>
+        </div>
+        <div className="table-container">
+          <table className="data-table">
+            <thead>
+              <tr>
+                <th>Email</th>
+                <th>Role</th>
+                <th>Actions</th>
+              </tr>
+            </thead>
+            <tbody>
+              {users.map((user) => (
+                <tr key={user._id}>
+                  <td>{user.email}</td>
+                  <td>{user.role}</td>
+                  <td>
+                    <div className="actions">
+                      <button 
+                        className="btn-icon btn-edit" 
+                        onClick={() => handleUserEdit(user)}
+                      >
+                        <FiEdit2 size={16} />
+                      </button>
+                      <button 
+                        className="btn-icon btn-delete" 
+                        onClick={() => handleUserDelete(user._id)}
+                      >
+                        <FiTrash2 size={16} />
+                      </button>
+                    </div>
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
         </div>
       </div>
 
@@ -754,284 +849,260 @@ const Admin = () => {
           </button>
         </div>
         <div className="calendar-container">
-          <div className="calendar-wrapper">
-            <Calendar
-              localizer={localizer}
-              events={calendarEvents}
-              startAccessor="start"
-              endAccessor="end"
-              style={{ height: 500 }}
-              views={["month", "week", "day"]}
-              defaultView="month"
-              eventPropGetter={(event) => ({
-                style: {
-                  backgroundColor: "#4f46e5",
-                  borderRadius: "4px",
-                  border: "none",
-                },
-              })}
-            />
-          </div>
-          <div className="upcoming-events">
-            <h3>Upcoming Events</h3>
-            <ul>
-              {events.slice(0, 5).map((event) => (
-                <li key={event._id}>
-                  <div className="event-date">
-                    {moment(event.date).format("DD")}
-                    <span>{moment(event.date).format("MMM")}</span>
-                  </div>
-                  <div className="event-details">
-                    <h4>{event.title}</h4>
-                    <p>{event.description}</p>
-                  </div>
-                  <div className="event-actions">
-                    <button 
-                      className="btn-icon btn-edit" 
-                      onClick={() => {
-                        setEditingEvent(event);
-                        setEventForm({
-                          title: event.title,
-                          date: event.date,
-                          description: event.description,
-                          location: event.location || "",
-                        });
-                        setShowEventModal(true);
-                      }}
-                    >
-                      <FiEdit2 size={14} />
-                    </button>
-                    <button 
-                      className="btn-icon btn-delete" 
-                      onClick={() => handleEventDelete(event._id)}
-                    >
-                      <FiTrash2 size={14} />
-                    </button>
-                  </div>
-                </li>
-              ))}
-            </ul>
-          </div>
+          <Calendar
+            localizer={localizer}
+            events={calendarEvents}
+            startAccessor="start"
+            endAccessor="end"
+            style={{ height: 500 }}
+            onSelectEvent={(event) => {
+              const selectedEvent = events.find(e => e.title === event.title && new Date(e.date).toISOString() === event.start.toISOString());
+              if (selectedEvent) handleEventEdit(selectedEvent);
+            }}
+          />
         </div>
-      </div>
-
-      <div className="dashboard-section">
-        <div className="section-header">
-          <h2>Recent Announcements</h2>
-          <button className="btn btn-primary" onClick={() => setShowAnnouncementModal(true)}>
-            <FiPlus size={16} /> New Announcement
-          </button>
-        </div>
-        <div className="announcements-grid">
-          {announcements.slice(0, 3).map((announcement) => (
-            <div key={announcement._id} className="announcement-card">
-              <div className="announcement-header">
-                <h3>{announcement.title}</h3>
-                <span className="announcement-date">
-                  {moment(announcement.date).format("MMM D, YYYY")}
-                </span>
+        <div className="events-list">
+          <h3>Upcoming Events</h3>
+          {events.map((event) => (
+            <div key={event._id} className="event-item">
+              <div className="event-details">
+                <span className="event-title">{event.title}</span>
+                <span className="event-date">{moment(event.date).format("MMM D, YYYY")}</span>
+                <p>{event.description}</p>
               </div>
-              <p className="announcement-content">{announcement.content}</p>
-              <div className="announcement-actions">
-                <button 
-                  className="btn-icon btn-edit" 
-                  onClick={() => {
-                    setEditingAnnouncement(announcement);
-                    setAnnouncementForm({
-                      title: announcement.title,
-                      content: announcement.content,
-                      date: announcement.date,
-                      priority: announcement.priority || "normal",
-                    });
-                    setShowAnnouncementModal(true);
-                  }}
-                >
-                  <FiEdit2 size={14} />
+              <div className="event-actions">
+                <button className="btn-icon btn-edit" onClick={() => handleEventEdit(event)}>
+                  <FiEdit2 size={16} />
                 </button>
-                <button 
-                  className="btn-icon btn-delete" 
-                  onClick={() => handleAnnouncementDelete(announcement._id)}
-                >
-                  <FiTrash2 size={14} />
+                <button className="btn-icon btn-delete" onClick={() => handleEventDelete(event._id)}>
+                  <FiTrash2 size={16} />
                 </button>
               </div>
             </div>
           ))}
         </div>
       </div>
-    </>
-  );
 
-  const renderTeacherDashboard = () => (
-    <div className="dashboard-section">
-      <h2>Teacher Dashboard</h2>
-      <div className="dashboard-actions">
-        <button className="btn btn-primary" onClick={() => setShowHomeworkModal(true)}>
-          <FiPlus size={16} /> Assign Homework
-        </button>
+      <div className="dashboard-section">
+        <div className="section-header">
+          <h2>Announcements</h2>
+        </div>
+        <div className="announcements-list">
+          {announcements.map((announcement) => (
+            <div key={announcement._id} className={`announcement-item ${announcement.priority}`}>
+              <div className="announcement-details">
+                <span className="announcement-title">{announcement.title}</span>
+                <span className="announcement-date">{moment(announcement.date).format("MMM D, YYYY")}</span>
+                <p>{announcement.content}</p>
+              </div>
+              <div className="announcement-actions">
+                <button className="btn-icon btn-edit" onClick={() => handleAnnouncementEdit(announcement)}>
+                  <FiEdit2 size={16} />
+                </button>
+                <button className="btn-icon btn-delete" onClick={() => handleAnnouncementDelete(announcement._id)}>
+                  <FiTrash2 size={16} />
+                </button>
+              </div>
+            </div>
+          ))}
+        </div>
       </div>
-      <div className="table-container">
-        <table className="data-table">
-          <thead>
-            <tr>
-              <th>Class</th>
-              <th>Subject</th>
-              <th>Students</th>
-              <th>Actions</th>
-            </tr>
-          </thead>
-          <tbody>
-            {teachers
-              .filter(t => t._id === userId)
-              .map(teacher => (
-                <tr key={teacher._id}>
-                  <td>{teacher.classAssigned || "N/A"}</td>
-                  <td>{teacher.subject}</td>
-                  <td>{dashboardStats.studentCount}</td>
+
+      <div className="dashboard-section">
+        <div className="section-header">
+          <h2>Leave Requests</h2>
+        </div>
+        <div className="table-container">
+          <table className="data-table">
+            <thead>
+              <tr>
+                <th>Teacher</th>
+                <th>Start Date</th>
+                <th>End Date</th>
+                <th>Reason</th>
+                <th>Status</th>
+                <th>Actions</th>
+              </tr>
+            </thead>
+            <tbody>
+              {leaveRequests.map((request) => (
+                <tr key={request._id}>
+                  <td>{request.teacherId?.name || "N/A"}</td>
+                  <td>{moment(request.startDate).format("MMM D, YYYY")}</td>
+                  <td>{moment(request.endDate).format("MMM D, YYYY")}</td>
+                  <td>{request.reason}</td>
                   <td>
-                    <button className="btn btn-secondary">
-                      View Class
+                    <select
+                      value={request.status}
+                      onChange={async (e) => {
+                        try {
+                          await fetch(`http://localhost:5000/api/leave-requests/${request._id}`, {
+                            method: "PUT",
+                            headers: {
+                              "Content-Type": "application/json",
+                              Authorization: `Bearer ${token}`,
+                            },
+                            body: JSON.stringify({ status: e.target.value }),
+                          });
+                          fetchDashboardData();
+                        } catch (error) {
+                          console.error("Error updating leave request:", error);
+                        }
+                      }}
+                    >
+                      <option value="pending">Pending</option>
+                      <option value="approved">Approved</option>
+                      <option value="rejected">Rejected</option>
+                    </select>
+                  </td>
+                  <td>
+                    <button
+                      className="btn-icon btn-delete"
+                      onClick={async () => {
+                        if (window.confirm("Are you sure you want to delete this leave request?")) {
+                          try {
+                            await fetch(`http://localhost:5000/api/leave-requests/${request._id}`, {
+                              method: "DELETE",
+                              headers: { Authorization: `Bearer ${token}` },
+                            });
+                            fetchDashboardData();
+                          } catch (error) {
+                            console.error("Error deleting leave request:", error);
+                          }
+                        }
+                      }}
+                    >
+                      <FiTrash2 size={16} />
                     </button>
                   </td>
                 </tr>
               ))}
-          </tbody>
-        </table>
+            </tbody>
+          </table>
+        </div>
       </div>
+
+      <div className="dashboard-section">
+        <div className="section-header">
+          <h2>Audit Logs</h2>
+        </div>
+        <div className="table-container">
+          <table className="data-table">
+            <thead>
+              <tr>
+                <th>User</th>
+                <th>Action</th>
+                <th>Resource</th>
+                <th>Resource ID</th>
+                <th>Timestamp</th>
+              </tr>
+            </thead>
+            <tbody>
+              {auditLogs.map((log) => (
+                <tr key={log._id}>
+                  <td>{log.userId?.email || "N/A"} ({log.userId?.role || "N/A"})</td>
+                  <td>{log.action}</td>
+                  <td>{log.resource}</td>
+                  <td>{log.resourceId || "N/A"}</td>
+                  <td>{moment(log.timestamp).format("MMM D, YYYY, h:mm A")}</td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </>
+  );
+
+  // Render Teacher Dashboard (Placeholder)
+  const renderTeacherDashboard = () => (
+    <div>
+      <h1>Teacher Dashboard</h1>
+      <p>This is a placeholder for the teacher dashboard.</p>
     </div>
   );
 
+  // Render Student Dashboard (Placeholder)
   const renderStudentDashboard = () => (
-    <div className="dashboard-section">
-      <h2>Student Dashboard</h2>
-      <div className="stats-grid">
-        <div className="stat-card bg-indigo-100">
-          <div className="stat-content">
-            <span className="stat-label">Classes</span>
-            <span className="stat-value">5</span>
-          </div>
-        </div>
-        <div className="stat-card bg-emerald-100">
-          <div className="stat-content">
-            <span className="stat-label">Assignments</span>
-            <span className="stat-value">12</span>
-          </div>
-        </div>
-      </div>
+    <div>
+      <h1>Student Dashboard</h1>
+      <p>This is a placeholder for the student dashboard.</p>
     </div>
   );
+
+  // Render Dashboard based on Role
+  const renderDashboard = () => {
+    switch (role) {
+      case "admin":
+        return renderAdminDashboard();
+      case "teacher":
+        return renderTeacherDashboard();
+      case "student":
+        return renderStudentDashboard();
+      default:
+        return null;
+    }
+  };
+
+  // If not logged in, show login form
+  if (!token) {
+    return (
+      <div className="login-container">
+        <div className="login-box">
+          <h2>School Management System</h2>
+          <form onSubmit={handleLogin}>
+            <div className="form-group">
+              <label>Email</label>
+              <input type="email" name="email" placeholder="Enter your email" required />
+            </div>
+            <div className="form-group">
+              <label>Password</label>
+              <input type="password" name="password" placeholder="Enter your password" required />
+            </div>
+            <button type="submit" className="btn btn-primary">Login</button>
+          </form>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className={`admin-app ${sidebarCollapsed ? "sidebar-collapsed" : ""}`}>
-      {token && (
-        <>
-          <div className="admin-sidebar">
-            <div className="sidebar-header">
-              <h2 className="logo">EduAdmin</h2>
-              <button 
-                className="sidebar-toggle" 
-                onClick={() => setSidebarCollapsed(!sidebarCollapsed)}
-              >
-                {sidebarCollapsed ? <FiChevronRight /> : <FiChevronLeft />}
-              </button>
-            </div>
-            
-            <nav className="sidebar-nav">
-              <ul>
-                <li 
-                  className={activeMenu === "dashboard" ? "active" : ""}
-                  onClick={() => setActiveMenu("dashboard")}
-                >
-                  <FiHome size={20} />
-                  {!sidebarCollapsed && <span>Dashboard</span>}
-                </li>
-                {role === "admin" && (
-                  <>
-                    <li 
-                      className={activeMenu === "students" ? "active" : ""}
-                      onClick={() => setActiveMenu("students")}
-                    >
-                      <FiUser size={20} />
-                      {!sidebarCollapsed && <span>Students</span>}
-                    </li>
-                    <li 
-                      className={activeMenu === "teachers" ? "active" : ""}
-                      onClick={() => setActiveMenu("teachers")}
-                    >
-                      <FiUsers size={20} />
-                      {!sidebarCollapsed && <span>Teachers</span>}
-                    </li>
-                    <li 
-                      className={activeMenu === "calendar" ? "active" : ""}
-                      onClick={() => setActiveMenu("calendar")}
-                    >
-                      <FiCalendar size={20} />
-                      {!sidebarCollapsed && <span>Calendar</span>}
-                    </li>
-                  </>
-                )}
-                {role === "teacher" && (
-                  <li 
-                    className={activeMenu === "homework" ? "active" : ""}
-                    onClick={() => setActiveMenu("homework")}
-                  >
-                    <FiBookmark size={20} />
-                    {!sidebarCollapsed && <span>Homework</span>}
-                  </li>
-                )}
-              </ul>
-            </nav>
-            
-            <div className="sidebar-footer">
-              <button className="logout-btn" onClick={handleLogout}>
-                <FiLogOut size={20} />
-                {!sidebarCollapsed && <span>Logout</span>}
-              </button>
-            </div>
-          </div>
-
-          <div className="admin-main">
-            <header className="admin-header">
-              <div className="search-bar">
-                <FiSearch size={18} />
-                <input type="text" placeholder="Search..." />
-              </div>
-              <div className="user-profile">
-                <div className="notifications">
-                  <FiBell size={20} />
-                  {unreadNotifications > 0 && (
-                    <span className="badge">{unreadNotifications}</span>
-                  )}
-                </div>
-                <div className="user-info">
-                  <div className="avatar">
-                    {role ? role.charAt(0).toUpperCase() : "G"}
-                  </div>
-                  {!sidebarCollapsed && (
-                    <div className="user-details">
-                      <span className="user-name">
-                        {role === "admin" ? "Administrator" : 
-                         role === "teacher" ? "Teacher" : 
-                         role === "student" ? "Student" : "Guest"}
-                      </span>
-                    </div>
-                  )}
-                </div>
-              </div>
-            </header>
-
-            <main className="admin-content">
-              {renderDashboard()}
-            </main>
-          </div>
-        </>
-      )}
-
-      {!token && (
-        <div className="admin-main">
-          {renderDashboard()}
+      <div className="sidebar">
+        <div className="sidebar-header">
+          <h2>School Admin</h2>
+          <button className="sidebar-toggle" onClick={() => setSidebarCollapsed(!sidebarCollapsed)}>
+            {sidebarCollapsed ? <FiChevronRight size={20} /> : <FiChevronLeft size={20} />}
+          </button>
         </div>
-      )}
+        <ul className="sidebar-menu">
+          <li className={activeMenu === "dashboard" ? "active" : ""} onClick={() => setActiveMenu("dashboard")}>
+            <FiHome size={20} /> <span>Dashboard</span>
+          </li>
+          <li className={activeMenu === "users" ? "active" : ""} onClick={() => setActiveMenu("users")}>
+            <FiUsers size={20} /> <span>Users</span>
+          </li>
+          <li className={activeMenu === "calendar" ? "active" : ""} onClick={() => setActiveMenu("calendar")}>
+            <FiCalendar size={20} /> <span>Calendar</span>
+          </li>
+          <li className={activeMenu === "notifications" ? "active" : ""} onClick={() => setActiveMenu("notifications")}>
+            <FiBell size={20} /> <span>Notifications {unreadNotifications > 0 && <span className="badge">{unreadNotifications}</span>}</span>
+          </li>
+          <li className={activeMenu === "messages" ? "active" : ""} onClick={() => setActiveMenu("messages")}>
+            <FiMessageSquare size={20} /> <span>Messages</span>
+          </li>
+          <li className={activeMenu === "settings" ? "active" : ""} onClick={() => setActiveMenu("settings")}>
+            <FiSettings size={20} /> <span>Settings</span>
+          </li>
+          <li onClick={handleLogout}>
+            <FiLogOut size={20} /> <span>Logout</span>
+          </li>
+        </ul>
+      </div>
+
+      <div className="main-content">
+        {renderDashboard()}
+      </div>
 
       {/* Teacher Modal */}
       {showTeacherModal && (
@@ -1040,18 +1111,18 @@ const Admin = () => {
             <div className="modal-header">
               <h2>{editingTeacher ? "Edit Teacher" : "Add New Teacher"}</h2>
               <button className="modal-close" onClick={() => setShowTeacherModal(false)}>
-                &times;
+                ×
               </button>
             </div>
             <form onSubmit={handleTeacherSubmit}>
               <div className="form-group">
-                <label>Full Name</label>
+                <label>Name</label>
                 <input
                   type="text"
                   name="name"
                   value={teacherForm.name}
                   onChange={(e) => setTeacherForm({ ...teacherForm, name: e.target.value })}
-                  placeholder="Enter full name"
+                  placeholder="Enter name"
                   required
                 />
               </div>
@@ -1080,12 +1151,31 @@ const Admin = () => {
               <div className="form-group">
                 <label>Phone</label>
                 <input
-                  type="tel"
+                  type="text"
                   name="phone"
                   value={teacherForm.phone}
                   onChange={(e) => setTeacherForm({ ...teacherForm, phone: e.target.value })}
                   placeholder="Enter phone number"
-                  required
+                />
+              </div>
+              <div className="form-group">
+                <label>Address</label>
+                <input
+                  type="text"
+                  name="address"
+                  value={teacherForm.address}
+                  onChange={(e) => setTeacherForm({ ...teacherForm, address: e.target.value })}
+                  placeholder="Enter address"
+                />
+              </div>
+              <div className="form-group">
+                <label>Qualification</label>
+                <input
+                  type="text"
+                  name="qualification"
+                  value={teacherForm.qualification}
+                  onChange={(e) => setTeacherForm({ ...teacherForm, qualification: e.target.value })}
+                  placeholder="Enter qualification"
                 />
               </div>
               <div className="modal-actions">
@@ -1108,18 +1198,18 @@ const Admin = () => {
             <div className="modal-header">
               <h2>{editingStudent ? "Edit Student" : "Add New Student"}</h2>
               <button className="modal-close" onClick={() => setShowStudentModal(false)}>
-                &times;
+                ×
               </button>
             </div>
             <form onSubmit={handleStudentSubmit}>
               <div className="form-group">
-                <label>Full Name</label>
+                <label>Name</label>
                 <input
                   type="text"
                   name="name"
                   value={studentForm.name}
                   onChange={(e) => setStudentForm({ ...studentForm, name: e.target.value })}
-                  placeholder="Enter full name"
+                  placeholder="Enter name"
                   required
                 />
               </div>
@@ -1158,11 +1248,21 @@ const Admin = () => {
               <div className="form-group">
                 <label>Phone</label>
                 <input
-                  type="tel"
+                  type="text"
                   name="phone"
                   value={studentForm.phone}
                   onChange={(e) => setStudentForm({ ...studentForm, phone: e.target.value })}
                   placeholder="Enter phone number"
+                />
+              </div>
+              <div className="form-group">
+                <label>Address</label>
+                <input
+                  type="text"
+                  name="address"
+                  value={studentForm.address}
+                  onChange={(e) => setStudentForm({ ...studentForm, address: e.target.value })}
+                  placeholder="Enter address"
                 />
               </div>
               <div className="modal-actions">
@@ -1185,12 +1285,12 @@ const Admin = () => {
             <div className="modal-header">
               <h2>{editingEvent ? "Edit Event" : "Add New Event"}</h2>
               <button className="modal-close" onClick={() => setShowEventModal(false)}>
-                &times;
+                ×
               </button>
             </div>
             <form onSubmit={handleEventSubmit}>
               <div className="form-group">
-                <label>Event Title</label>
+                <label>Title</label>
                 <input
                   type="text"
                   name="title"
@@ -1217,12 +1317,11 @@ const Admin = () => {
                   value={eventForm.description}
                   onChange={(e) => setEventForm({ ...eventForm, description: e.target.value })}
                   placeholder="Enter event description"
-                  rows="3"
                   required
-                ></textarea>
+                />
               </div>
               <div className="form-group">
-                <label>Location (optional)</label>
+                <label>Location</label>
                 <input
                   type="text"
                   name="location"
@@ -1251,7 +1350,7 @@ const Admin = () => {
             <div className="modal-header">
               <h2>{editingAnnouncement ? "Edit Announcement" : "Add New Announcement"}</h2>
               <button className="modal-close" onClick={() => setShowAnnouncementModal(false)}>
-                &times;
+                ×
               </button>
             </div>
             <form onSubmit={handleAnnouncementSubmit}>
@@ -1273,9 +1372,8 @@ const Admin = () => {
                   value={announcementForm.content}
                   onChange={(e) => setAnnouncementForm({ ...announcementForm, content: e.target.value })}
                   placeholder="Enter announcement content"
-                  rows="4"
                   required
-                ></textarea>
+                />
               </div>
               <div className="form-group">
                 <label>Date</label>
@@ -1296,7 +1394,7 @@ const Admin = () => {
                   className="select-input"
                 >
                   <option value="normal">Normal</option>
-                  <option value="important">Important</option>
+                  <option value="high">High</option>
                   <option value="urgent">Urgent</option>
                 </select>
               </div>
@@ -1305,7 +1403,7 @@ const Admin = () => {
                   Cancel
                 </button>
                 <button type="submit" className="btn btn-primary">
-                  {editingAnnouncement ? "Update" : "Publish"} Announcement
+                  {editingAnnouncement ? "Update" : "Add"} Announcement
                 </button>
               </div>
             </form>
@@ -1313,77 +1411,59 @@ const Admin = () => {
         </div>
       )}
 
-      {/* Homework Modal */}
-      {showHomeworkModal && (
+      {/* User Modal */}
+      {showUserModal && (
         <div className="modal-overlay">
           <div className="modal">
             <div className="modal-header">
-              <h2>Assign Homework</h2>
-              <button className="modal-close" onClick={() => setShowHomeworkModal(false)}>
-                &times;
+              <h2>{editingUser ? "Edit User" : "Add New User"}</h2>
+              <button className="modal-close" onClick={() => setShowUserModal(false)}>
+                ×
               </button>
             </div>
-            <form onSubmit={handleHomeworkSubmit}>
+            <form onSubmit={handleUserSubmit}>
               <div className="form-group">
-                <label>Subject</label>
+                <label>Email</label>
                 <input
-                  type="text"
-                  name="subject"
-                  value={homeworkForm.subject}
-                  onChange={(e) => setHomeworkForm({ ...homeworkForm, subject: e.target.value })}
-                  placeholder="Enter subject"
+                  type="email"
+                  name="email"
+                  value={userForm.email}
+                  onChange={(e) => setUserForm({ ...userForm, email: e.target.value })}
+                  placeholder="Enter email"
                   required
                 />
               </div>
               <div className="form-group">
-                <label>Title</label>
+                <label>Password {editingUser && "(Leave blank to keep unchanged)"}</label>
                 <input
-                  type="text"
-                  name="title"
-                  value={homeworkForm.title}
-                  onChange={(e) => setHomeworkForm({ ...homeworkForm, title: e.target.value })}
-                  placeholder="Enter homework title"
-                  required
+                  type="password"
+                  name="password"
+                  value={userForm.password}
+                  onChange={(e) => setUserForm({ ...userForm, password: e.target.value })}
+                  placeholder="Enter password"
+                  required={!editingUser}
                 />
               </div>
               <div className="form-group">
-                <label>Description</label>
-                <textarea
-                  name="description"
-                  value={homeworkForm.description}
-                  onChange={(e) => setHomeworkForm({ ...homeworkForm, description: e.target.value })}
-                  placeholder="Enter homework description"
-                  rows="3"
-                  required
-                ></textarea>
-              </div>
-              <div className="form-group">
-                <label>Due Date</label>
-                <input
-                  type="date"
-                  name="dueDate"
-                  value={homeworkForm.dueDate}
-                  onChange={(e) => setHomeworkForm({ ...homeworkForm, dueDate: e.target.value })}
-                  required
-                />
-              </div>
-              <div className="form-group">
-                <label>Class</label>
-                <input
-                  type="text"
-                  name="classId"
-                  value={homeworkForm.classId}
-                  onChange={(e) => setHomeworkForm({ ...homeworkForm, classId: e.target.value })}
-                  placeholder="Enter class ID"
-                  required
-                />
+                <label>Role</label>
+                <select
+                  name="role"
+                  value={userForm.role}
+                  onChange={(e) => setUserForm({ ...userForm, role: e.target.value })}
+                  className="select-input"
+                >
+                  <option value="admin">Admin</option>
+                  <option value="teacher">Teacher</option>
+                  <option value="student">Student</option>
+                  <option value="parent">Parent</option>
+                </select>
               </div>
               <div className="modal-actions">
-                <button type="button" className="btn btn-secondary" onClick={() => setShowHomeworkModal(false)}>
+                <button type="button" className="btn btn-secondary" onClick={() => setShowUserModal(false)}>
                   Cancel
                 </button>
                 <button type="submit" className="btn btn-primary">
-                  Assign Homework
+                  {editingUser ? "Update" : "Add"} User
                 </button>
               </div>
             </form>
