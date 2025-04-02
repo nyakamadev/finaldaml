@@ -1,21 +1,20 @@
-/* /src/components/Footer.css */
-
 /* Outer footer background */
 .footer-container {
-    background-color: #00172a;  /* Dark blue */
-    color: #fff;
+    background-color: #1E3A8A; /* Dark blue */
+    color: #FFFFFF;
     font-family: Arial, sans-serif;
-    padding: 2rem 0; /* top/bottom spacing */
+    padding: 2rem 0;
+    max-width: 100%;
   }
   
   /* Centered wrapper with max width */
   .footer-inner {
-    max-width: 1200px;       /* Adjust as needed for your design grid */
+    max-width: 1200px;
     margin: 0 auto;
     display: flex;
     align-items: flex-start;
     justify-content: space-between;
-    padding: 0 2rem;         /* Horizontal gutter */
+    padding: 0 2rem;
     box-sizing: border-box;
   }
   
@@ -26,7 +25,7 @@
     flex: 1;
     display: flex;
     flex-direction: column;
-    padding-left: 50px;      /* Extra left padding (adjust as needed) */
+    padding-left: 50px;
     box-sizing: border-box;
   }
   
@@ -36,14 +35,14 @@
     margin: 0;
   }
   
-  .green-line {
+  .yellow-line {
     width: 60%;
     height: 3px;
-    background-color: #bbd727;
+    background-color: #D97706; /* Mustard yellow */
     margin: 0.5rem 0;
   }
   
-  .academy-title {
+  .company-title {
     font-size: 2rem;
     font-weight: 700;
     margin: 0;
@@ -64,18 +63,28 @@
     display: flex;
     align-items: center;
     margin: 0.25rem 0;
+    cursor: pointer;
   }
   
   .touch-icon {
     width: 30px;
     height: 30px;
-    border: 2px solid #bbd727;
-    color: #bbd727;
+    border: 2px solid #D97706; /* Mustard yellow */
+    color: #D97706;
     display: flex;
     align-items: center;
     justify-content: center;
     border-radius: 4px;
     margin-right: 0.5rem;
+  }
+  
+  .touch-link {
+    color: #FFFFFF;
+    text-decoration: none;
+  }
+  
+  .touch-link:hover {
+    text-decoration: underline;
   }
   
   /* ========================================
@@ -87,7 +96,7 @@
     display: flex;
     flex-direction: column;
     justify-content: center;
-    gap: 0.2rem; /* tighter spacing between address lines */
+    gap: 0.2rem;
     font-size: 0.95rem;
   }
   
@@ -100,20 +109,15 @@
     flex-direction: column;
     align-items: flex-end;
     gap: 1rem;
-    margin-right: 40px; /* shifts column inward from right edge */
+    margin-right: 40px;
   }
   
-  /* 
-     2.1 Social + Logo grouping
-     We use flex column & center alignment 
-     so icons are directly above the logo 
-     and horizontally centered with it.
-  */
+  /* Social + Logo + Button grouping */
   .social-and-logo {
     display: flex;
     flex-direction: column;
-    align-items: center;    /* center icons and logo horizontally */
-    gap: 0.5rem;           /* spacing between icons and logo */
+    align-items: center;
+    gap: 0.5rem;
   }
   
   /* Social icons container */
@@ -129,65 +133,90 @@
   }
   
   .social-icons svg:hover {
-    color: #bbd727;
+    color: #D97706; /* Mustard yellow */
   }
   
   /* Larger logo */
   .footer-logo {
-    width: 100px; /* increased from 80px */
+    width: 100px;
     height: auto;
     object-fit: contain;
   }
   
-  /* 
-     2.2 Credits below the line 
-     with some extra spacing
-  */
+  /* Manage button styling */
+  .manage-button {
+    background-color: #D97706; /* Mustard yellow */
+    color: #1E3A8A; /* Dark blue */
+    padding: 0.5rem 1.5rem;
+    border: none;
+    border-radius: 4px;
+    font-size: 1rem;
+    font-weight: 600;
+    cursor: pointer;
+    margin-top: 1rem;
+    transition: all 0.3s ease;
+  }
+  
+  .manage-button:hover {
+    background-color: #B45309; /* Darker mustard yellow */
+    transform: translateY(-2px);
+  }
+  
+  /* Credits */
   .credits {
     display: flex;
     flex-direction: column;
     align-items: flex-end;
     gap: 0.25rem;
     font-size: 0.85rem;
-    margin-top: 1rem; 
+    margin-top: 1rem;
     padding-top: 0.5rem;
     width: 100%;
-    border-top: 1px solid #bbd727; /* the new line above credits */
+    border-top: 1px solid #D97706; /* Mustard yellow */
   }
   
   /* ========================================
      RESPONSIVE BREAKPOINTS
      ======================================== */
-  @media (max-width: 992px) {
-    .footer-inner {
-      padding: 0 1.5rem;
-    }
-  }
-  
   @media (max-width: 768px) {
+    .footer-container {
+      padding: 1rem 0;
+    }
+  
     .footer-inner {
       flex-direction: column;
-      align-items: flex-start;
-      gap: 2rem;
+      align-items: center;
+      gap: 1rem;
+      padding: 0 1rem;
     }
   
     .footer-left {
-      padding-left: 0; /* remove big left padding on mobile if you want */
+      padding-left: 0;
+      text-align: center;
     }
   
     .footer-center {
-      text-align: left;
-      align-items: flex-start;
+      text-align: center;
+      align-items: center;
     }
   
     .footer-right {
-      align-items: flex-start;
-      margin-right: 0; /* remove right margin on small screens */
+      align-items: center;
+      margin-right: 0;
     }
   
     .credits {
-      align-items: flex-start;
+      align-items: center;
       width: auto;
     }
-  }
   
+    .manage-button {
+      width: 100%;
+      padding: 0.75rem 1.5rem;
+      font-size: 0.9rem;
+    }
+  
+    .social-and-logo {
+      gap: 0.75rem;
+    }
+  }

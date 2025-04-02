@@ -1,16 +1,17 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
 import { FaFacebookF, FaWhatsapp } from "react-icons/fa";
-import logo from "../logo.png"; // Import the logo from src/logo.png
-import "./Footer.css";
+import "../styles/Footer.css";
 
 const Footer = () => {
-  // Get navigate from react-router
   const navigate = useNavigate();
 
-  // Handler for "GET IN TOUCH"
-  const goToFAQ = () => {
-    navigate("/faq");
+  const goToContact = () => {
+    navigate("/contact");
+  };
+
+  const goToAdmin = () => {
+    navigate("/admin");
   };
 
   return (
@@ -18,27 +19,19 @@ const Footer = () => {
       <div className="footer-inner">
         {/* Left column */}
         <div className="footer-left">
-          <p className="enroll-text">Enroll your child now</p>
-          <div className="green-line" />
-          <h1 className="academy-title">Suesland Academy</h1>
+          <p className="enroll-text">GET IN TOUCH</p>
+          <div className="yellow-line" />
+          <h1 className="company-title">Direct Access Money Lending</h1>
 
           <div className="get-in-touch">
             <h3>How to get in touch</h3>
-
-            {/* Clickable "GET IN TOUCH" item */}
-            <div className="touch-item" onClick={goToFAQ}>
+            <div className="touch-item" onClick={goToContact}>
               <div className="touch-icon">✉</div>
               <span>GET IN TOUCH</span>
             </div>
-
             <div className="touch-item">
               <div className="touch-icon">▶</div>
-              <a
-                href="/doc-1.pdf"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="touch-link"
-              >
+              <a href="/doc-1.pdf" target="_blank" rel="noopener noreferrer" className="touch-link">
                 Documents and Resources
               </a>
             </div>
@@ -48,9 +41,9 @@ const Footer = () => {
         {/* Center column */}
         <div className="footer-center">
           <p>
-            Plot No. 12298 <br />
-            Puta Street, Woodlands Extension <br />
-            Call: +260973974224
+          room 4 Napsa Building Monze <br />
+          Call: +260 777518123  <br />
+
           </p>
         </div>
 
@@ -61,12 +54,15 @@ const Footer = () => {
               <FaFacebookF />
               <FaWhatsapp />
             </div>
-            <img className="footer-logo" src={logo} alt="Suesland Academy" /> {/* Use the imported logo */}
+            <img className="footer-logo" src="/logo.png" alt="Direct Access Money Lending" />
+            <button className="manage-button" onClick={goToAdmin}>
+              Manage
+            </button>
           </div>
 
           <div className="credits">
-            <span>Full Stack by Mpange Creative Arts (c) 2025</span>
-            <span>Mpange Inshi Lelo? 0972276257</span>
+            <p>Website by Chanda Mwika <br /> Mpange Creative Arts © 2025</p>
+            <p>Mpangenshi? Call +26 0972276257</p>
           </div>
         </div>
       </div>

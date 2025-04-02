@@ -1,0 +1,222 @@
+/* Outer footer background */
+.footer-container {
+    background-color: #1E3A8A; /* Dark blue */
+    color: #FFFFFF;
+    font-family: Arial, sans-serif;
+    padding: 2rem 0;
+    max-width: 100%;
+  }
+  
+  /* Centered wrapper with max width */
+  .footer-inner {
+    max-width: 1200px;
+    margin: 0 auto;
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    padding: 0 2rem;
+    box-sizing: border-box;
+  }
+  
+  /* ========================================
+     LEFT COLUMN
+     ======================================== */
+  .footer-left {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    padding-left: 50px;
+    box-sizing: border-box;
+  }
+  
+  .enroll-text {
+    font-size: 1rem;
+    font-weight: 500;
+    margin: 0;
+  }
+  
+  .yellow-line {
+    width: 60%;
+    height: 3px;
+    background-color: #D97706; /* Mustard yellow */
+    margin: 0.5rem 0;
+  }
+  
+  .company-title {
+    font-size: 2rem;
+    font-weight: 700;
+    margin: 0;
+    line-height: 1.2;
+  }
+  
+  .get-in-touch {
+    margin-top: 1rem;
+  }
+  
+  .get-in-touch h3 {
+    margin-bottom: 0.75rem;
+    font-size: 1rem;
+    font-weight: 600;
+  }
+  
+  .touch-item {
+    display: flex;
+    align-items: center;
+    margin: 0.25rem 0;
+    cursor: pointer;
+  }
+  
+  .touch-icon {
+    width: 30px;
+    height: 30px;
+    border: 2px solid #D97706; /* Mustard yellow */
+    color: #D97706;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 4px;
+    margin-right: 0.5rem;
+  }
+  
+  .touch-link {
+    color: #FFFFFF;
+    text-decoration: none;
+  }
+  
+  .touch-link:hover {
+    text-decoration: underline;
+  }
+  
+  /* ========================================
+     CENTER COLUMN => ADDRESS
+     ======================================== */
+  .footer-center {
+    flex: 1;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 0.2rem;
+    font-size: 0.95rem;
+  }
+  
+  /* ========================================
+     RIGHT COLUMN => LOGO / SOCIAL / CREDITS
+     ======================================== */
+  .footer-right {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    gap: 1rem;
+    margin-right: 40px;
+  }
+  
+  /* Social + Logo + Button grouping */
+  .social-and-logo {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.5rem;
+  }
+  
+  /* Social icons container */
+  .social-icons {
+    display: flex;
+    gap: 1rem;
+  }
+  
+  .social-icons svg {
+    font-size: 1.25rem;
+    cursor: pointer;
+    transition: color 0.3s;
+  }
+  
+  .social-icons svg:hover {
+    color: #D97706; /* Mustard yellow */
+  }
+  
+  /* Larger logo */
+  .footer-logo {
+    width: 100px;
+    height: auto;
+    object-fit: contain;
+  }
+  
+  /* Manage button styling */
+  .manage-button {
+    background-color: #D97706; /* Mustard yellow */
+    color: #1E3A8A; /* Dark blue */
+    padding: 0.5rem 1.5rem;
+    border: none;
+    border-radius: 4px;
+    font-size: 1rem;
+    font-weight: 600;
+    cursor: pointer;
+    margin-top: 1rem;
+    transition: all 0.3s ease;
+  }
+  
+  .manage-button:hover {
+    background-color: #B45309; /* Darker mustard yellow */
+    transform: translateY(-2px);
+  }
+  
+  /* Credits */
+  .credits {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    gap: 0.25rem;
+    font-size: 0.85rem;
+    margin-top: 1rem;
+    padding-top: 0.5rem;
+    width: 100%;
+    border-top: 1px solid #D97706; /* Mustard yellow */
+  }
+  
+  /* ========================================
+     RESPONSIVE BREAKPOINTS
+     ======================================== */
+  @media (max-width: 768px) {
+    .footer-container {
+      padding: 1rem 0;
+    }
+  
+    .footer-inner {
+      flex-direction: column;
+      align-items: center;
+      gap: 1rem;
+      padding: 0 1rem;
+    }
+  
+    .footer-left {
+      padding-left: 0;
+      text-align: center;
+    }
+  
+    .footer-center {
+      text-align: center;
+      align-items: center;
+    }
+  
+    .footer-right {
+      align-items: center;
+      margin-right: 0;
+    }
+  
+    .credits {
+      align-items: center;
+      width: auto;
+    }
+  
+    .manage-button {
+      width: 100%;
+      padding: 0.75rem 1.5rem;
+      font-size: 0.9rem;
+    }
+  
+    .social-and-logo {
+      gap: 0.75rem;
+    }
+  }

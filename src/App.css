@@ -1,3 +1,4 @@
 .App {
+    padding-top: 100px; /* Adjust based on navbar height */
   font-family: Arial, sans-serif;
 }

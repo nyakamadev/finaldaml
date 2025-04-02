@@ -1,0 +1,129 @@
+/* HowItWorks.css */
+.how-it-works {
+  background: var(--light);
+  font-family: 'Poppins', sans-serif;
+}
+
+/* Steps Section */
+.steps-section {
+  padding: 60px 20px;
+  text-align: center;
+}
+
+.section-title {
+  font-size: 2.5rem;
+  font-weight: 700;
+  color: var(--primary);
+  margin-bottom: 40px;
+}
+
+.highlight {
+  color: var(--secondary);
+}
+
+.steps-container {
+  display: flex;
+  justify-content: center;
+  gap: 40px;
+  flex-wrap: wrap;
+  max-width: 1200px;
+  margin: 0 auto;
+  position: relative;
+}
+
+.step-card {
+  width: 250px;
+  padding: 24px;
+  background: white;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+  text-align: center;
+  position: relative;
+  transition: transform 0.2s ease;
+}
+
+.step-number {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 48px;
+  height: 48px;
+  background: var(--secondary);
+  color: white;
+  border-radius: 50%;
+  font-size: 1.5rem;
+  font-weight: 600;
+  margin-bottom: 16px;
+}
+
+.step-title {
+  font-size: 1.3rem;
+  font-weight: 600;
+  color: var(--primary);
+  margin-bottom: 12px;
+}
+
+.step-description {
+  font-size: 1rem;
+  color: var(--gray);
+  line-height: 1.5;
+}
+
+.step-connector {
+  position: absolute;
+  top: 24px;
+  right: -40px;
+  width: 40px;
+  height: 2px;
+  background: linear-gradient(90deg, var(--secondary), transparent);
+  z-index: -1;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .steps-section {
+    padding: 40px 20px;
+  }
+
+  .section-title {
+    font-size: 2rem;
+  }
+
+  .steps-container {
+    gap: 30px;
+  }
+
+  .step-card {
+    width: 220px;
+    padding: 20px;
+  }
+
+  .step-number {
+    width: 40px;
+    height: 40px;
+    font-size: 1.3rem;
+  }
+
+  .step-title {
+    font-size: 1.2rem;
+  }
+
+  .step-description {
+    font-size: 0.95rem;
+  }
+
+  .step-connector {
+    display: none;
+  }
+}
+
+@media (max-width: 480px) {
+  .section-title {
+    font-size: 1.8rem;
+  }
+
+  .step-card {
+    width: 100%;
+    max-width: 300px;
+  }
+}

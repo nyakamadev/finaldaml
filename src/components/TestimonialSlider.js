@@ -1,85 +1,95 @@
 import React, { useState } from "react";
-import { FaArrowLeft, FaArrowRight, FaQuoteLeft } from "react-icons/fa";
+import { motion } from "framer-motion"; // Adding motion for smooth animations
+import placeholder1 from "../assets/mel.jpg"; // Replace with your images
+import placeholder2 from "../assets/mel.jpg";
+import placeholder3 from "../assets/mel.jpg";
+import placeholder4 from "../assets/mel.jpg";
 import "./TestimonialSlider.css";
 
 const TestimonialSlider = () => {
-  // Sample testimonials data
+  const [activeIndex, setActiveIndex] = useState(0);
+
   const testimonials = [
     {
-      id: 1,
-      quote:
-        "Suesland Academy has been a blessing for our family. The Christian values and nurturing environment have helped my child grow both academically and spiritually.",
-      name: "Sarah Johnson",
-      role: "Parent",
+      image: placeholder1,
+      quote: `"The loan process was seamless and quick. It helped me expand my small business in no time!"`,
+      author: "Chileshe Mwamba",
+      location: "Lusaka, Zambia",
     },
     {
-      id: 2,
-      quote:
-        "I love the small class sizes at Suesland Academy! The teachers truly care about each student and provide personalized attention that has helped me excel.",
-      name: "Michael Chen",
-      role: "Student",
+      image: placeholder2,
+      quote: `"Thanks to Direct Access, I could afford new equipment and double my productivity!"`,
+      author: "Mutinta Chanda",
+      location: "Monze, Zambia",
     },
     {
-      id: 3,
-      quote:
-        "Teaching at Suesland Academy is a joy. The supportive community and shared commitment to faith and education make it a wonderful place to work.",
-      name: "Emily Davis",
-      role: "Teacher",
+      image: placeholder3,
+      quote: `"Their support team is amazing. I got approved in 24 hours and started my project right away."`,
+      author: "Joseph Phiri",
+      location: "Mazabuka, Zambia",
+    },
+    {
+      image: placeholder4,
+      quote: `"The flexible terms saved my business during tough times. Highly recommend!"`,
+      author: "Grace Banda",
+      location: "Solwezi, Zambia",
     },
   ];
 
-  // State to track the current testimonial index
-  const [currentIndex, setCurrentIndex] = useState(0);
-
-  // Function to go to the previous testimonial
-  const prevTestimonial = () => {
-    setCurrentIndex((prevIndex) =>
-      prevIndex === 0 ? testimonials.length - 1 : prevIndex - 1
-    );
-  };
-
-  // Function to go to the next testimonial
-  const nextTestimonial = () => {
-    setCurrentIndex((prevIndex) =>
-      prevIndex === testimonials.length - 1 ? 0 : prevIndex + 1
-    );
-  };
-
-  // Get the current testimonial
-  const currentTestimonial = testimonials[currentIndex];
-
   return (
-    <section className="testimonial-slider">
-      <h2 className="ts-heading">What Our Community Says</h2>
-      <div className="ts-container">
-        {/* Navigation Arrow - Left */}
-        <button className="ts-nav-button ts-nav-left" onClick={prevTestimonial}>
-          <FaArrowLeft />
-        </button>
+    <section className="testimonial-section">
+      <div className="testimonial-container">
+        <motion.div
+          className="testimonial-slider"
+          initial={{ opacity: 0 }}
+          whileInView={{ opacity: 1 }}
+          transition={{ duration: 0.8 }}
+          viewport={{ once: true }}
+        >
+          <div
+            className="slider-track"
+            style={{
+              transform: `translateX(-${(activeIndex * 100) / testimonials.length}%)`,
+            }}
+          >
+            {testimonials.map((testimonial, index) => (
+              <div key={index} className="testimonial-item">
+                <div className="testimonial-image-container">
+                  <img
+                    src={testimonial.image}
+                    alt={`Testimonial from ${testimonial.author}`}
+                    className="testimonial-image"
+                  />
+                </div>
+                <div className="testimonial-content">
+                  <p className="testimonial-quote">"{testimonial.quote}"</p>
+                  <div className="testimonial-author-container">
+                    <h3 className="testimonial-author">{testimonial.author}</h3>
+                    <p className="testimonial-location">{testimonial.location}</p>
+                  </div>
+                  <motion.button
+                    className="testimonial-button"
+                    whileHover={{ scale: 1.05 }}
+                    whileTap={{ scale: 0.95 }}
+                  >
+                    Read Full Story
+                  </motion.button>
+                </div>
+              </div>
+            ))}
+          </div>
+        </motion.div>
 
-        {/* Testimonial Content */}
-        <div className="ts-content">
-          <FaQuoteLeft className="ts-quote-icon" />
-          <p className="ts-quote">{currentTestimonial.quote}</p>
-          <h3 className="ts-name">{currentTestimonial.name}</h3>
-          <p className="ts-role">{currentTestimonial.role}</p>
+        <div className="testimonial-dots">
+          {testimonials.map((_, index) => (
+            <button
+              key={index}
+              className={`dot ${index === activeIndex ? "active" : ""}`}
+              onClick={() => setActiveIndex(index)}
+              aria-label={`View testimonial ${index + 1}`}
+            />
+          ))}
         </div>
-
-        {/* Navigation Arrow - Right */}
-        <button className="ts-nav-button ts-nav-right" onClick={nextTestimonial}>
-          <FaArrowRight />
-        </button>
-      </div>
-
-      {/* Dots for Navigation */}
-      <div className="ts-dots">
-        {testimonials.map((_, index) => (
-          <span
-            key={index}
-            className={`ts-dot ${index === currentIndex ? "active" : ""}`}
-            onClick={() => setCurrentIndex(index)}
-          />
-        ))}
       </div>
     </section>
   );

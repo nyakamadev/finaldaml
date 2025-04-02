@@ -9,11 +9,11 @@ const Navbar = () => {
   const { pathname } = useLocation();
 
   const menuItems = [
-    { label: "Overview", path: "/" },
-    { label: "Business Solution", path: "/business-solution" },
-    { label: "Blog", path: "/blog" },
-    { label: "FAQ", path: "/faq" },
-    { label: "Admin", path: "/admin" },
+    { label: "Home", path: "/" },
+    { label: "Loans", path: "/loans" },
+    { label: "How It Works", path: "/how-it-works" },
+    { label: "About Us", path: "/about" },
+    { label: "Contact", path: "/contact" },
   ];
 
   useEffect(() => {
@@ -33,14 +33,14 @@ const Navbar = () => {
   return (
     <nav className={`navbar ${isScrolled ? "scrolled" : ""}`}>
       <div className="container">
-        <div 
-          className="navbar-brand" 
+        <div
+          className="navbar-brand"
           onClick={() => navigate("/")}
           aria-label="Home"
           role="button"
           tabIndex={0}
         >
-          <span className="brand-text">Suesland Academy</span>
+          <span className="brand-text">Direct Access Money Lending</span>
         </div>
 
         <button
@@ -68,7 +68,7 @@ const Navbar = () => {
           </ul>
           <div className="navbar-buttons">
             <button className="btn">Sign In</button>
-            <button className="btn primary">Manage Now</button>
+            <button className="btn primary">Apply Now</button>
           </div>
         </div>
       </div>
@@ -90,7 +90,7 @@ const Navbar = () => {
         </ul>
         <div className="mobile-buttons">
           <button className="btn">Sign In</button>
-          <button className="btn primary">Manage Now</button>
+          <button className="btn primary">Apply Now</button>
         </div>
       </div>
     </nav>

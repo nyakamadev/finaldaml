@@ -1,44 +1,31 @@
 import React from "react";
-import { Link } from "react-router-dom";
-import "./WhyChooseUs.css";
-
-// Placeholder images (replace with actual images)
-import image1 from "../assets/pages/st1 (2).jpg";
-import image2 from "../assets/pages/st1 (3).jpg";
-import image3 from "../assets/pages/st1 (4).jpg";
+import { motion } from "framer-motion";
 
 const WhyChooseUs = () => {
-  return (
-    <section className="why-choose-us">
-      <div className="wcu-container">
-        {/* Left Side: Images */}
-        <div className="wcu-images">
-          <div className="wcu-image-wrapper">
-            <div className="wcu-image wcu-image-1">
-              <img src={image1} alt="Student 1" />
-            </div>
-            <div className="wcu-image wcu-image-2">
-              <img src={image2} alt="Student 2" />
-            </div>
-            <div className="wcu-image wcu-image-3">
-              <img src={image3} alt="Student 3" />
-            </div>
-          </div>
-        </div>
+  const benefits = [
+    { title: "No Complicated Paperwork", description: "Apply with minimal hassle and get started quickly." },
+    { title: "Funds in 24 Hours", description: "Fast approvals mean you get your money when you need it." },
+    { title: "Tailored Loans", description: "Customized options to fit your unique financial needs." },
+  ];
 
-        {/* Right Side: Content */}
-        <div className="wcu-content">
-          <h3 className="wcu-subheading">One Step Closer!</h3>
-          <h2 className="wcu-heading">Why Choose Us?</h2>
-          <p>
-            Dare to dream? Think of a bright future you want to forge. You don’t
-            settle for less, so here are “some cool reasons” to choose Suesland
-            Academy.
-          </p>
-          <Link to="/enroll" className="wcu-button">
-            Enroll Today
-          </Link>
-        </div>
+  return (
+    <section className="why-choose-us" style={{ backgroundColor: "#F3F4F6", padding: "60px 20px", textAlign: "center" }}>
+      <motion.h2 initial={{ opacity: 0, y: 50 }} whileInView={{ opacity: 1, y: 0 }} transition={{ duration: 0.8 }} style={{ color: "#1E3A8A" }}>
+        Why Choose Us?
+      </motion.h2>
+      <div style={{ display: "flex", justifyContent: "center", gap: "20px", flexWrap: "wrap", marginTop: "40px" }}>
+        {benefits.map((benefit, index) => (
+          <motion.div
+            key={index}
+            initial={{ opacity: 0, x: index % 2 === 0 ? -50 : 50 }}
+            whileInView={{ opacity: 1, x: 0 }}
+            transition={{ duration: 0.6, delay: index * 0.2 }}
+            style={{ backgroundColor: "#FFFFFF", padding: "20px", border: "2px solid #60A5FA", borderRadius: "8px", width: "250px", boxShadow: "0 4px 6px rgba(0, 0, 0, 0.1)" }}
+          >
+            <h3 style={{ color: "#1E3A8A" }}>{benefit.title}</h3>
+            <p style={{ color: "#6B7280" }}>{benefit.description}</p>
+          </motion.div>
+        ))}
       </div>
     </section>
   );

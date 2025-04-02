@@ -1,7 +1,7 @@
 .hero {
   position: relative;
   height: 80vh;
-  background-image: url("../assets/pages/st1 (1).jpg"); /* Fixed path */
+  background-image: url("../assets/bg-3.jpg"); /* Fixed path */
   background-size: cover;
   background-position: center;
   background-attachment: fixed;

@@ -1,0 +1,1054 @@
+/* Loans.css */
+
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
+
+:root {
+  --primary: #1E3A8A;
+  --primary-light: #3B82F6;
+  --secondary: #D97706;
+  --secondary-light: #F59E0B;
+  --dark: #1F2937;
+  --light: #F9FAFB;
+  --gray: #6B7280;
+  --success: #10B981;
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: 'Poppins', sans-serif;
+  overflow-x: hidden;
+}
+
+.loans-page {
+  background-color: #FFFFFF;
+  color: #333;
+  position: relative;
+  overflow: hidden;
+}
+
+/* Floating coins animation */
+.floating-coins {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  z-index: 1;
+}
+
+.coin {
+  position: absolute;
+  width: 15px;
+  height: 15px;
+  background-color: var(--secondary);
+  border-radius: 50%;
+  opacity: 0.6;
+}
+
+/* Highlight text */
+.highlight {
+  color: var(--secondary);
+  position: relative;
+  display: inline-block;
+}
+
+.highlight:after {
+  content: '';
+  position: absolute;
+  bottom: 2px;
+  left: 0;
+  width: 100%;
+  height: 8px;
+  background-color: rgba(217, 119, 6, 0.2);
+  z-index: -1;
+  border-radius: 4px;
+}
+
+/* Intro Section */
+.loan-intro {
+  padding: 100px 20px;
+  text-align: center;
+  background: linear-gradient(135deg, #F8FAFC 0%, #EFF6FF 100%);
+  position: relative;
+  overflow: hidden;
+}
+
+.intro-content {
+  max-width: 800px;
+  margin: 0 auto;
+  position: relative;
+  z-index: 2;
+}
+
+.loan-intro h1 {
+  color: var(--primary);
+  font-size: 3rem;
+  margin-bottom: 20px;
+  font-weight: 700;
+  line-height: 1.2;
+}
+
+.loan-intro p {
+  color: var(--gray);
+  max-width: 700px;
+  margin: 0 auto 30px;
+  font-size: 1.2rem;
+  line-height: 1.8;
+}
+
+.intro-decoration {
+  position: relative;
+  height: 100px;
+}
+
+.pulse-dot {
+  position: absolute;
+  width: 10px;
+  height: 10px;
+  background-color: var(--secondary);
+  border-radius: 50%;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  animation: pulse 2s infinite;
+}
+
+.pulse-dot.delay-1 {
+  animation-delay: 0.5s;
+  width: 15px;
+  height: 15px;
+  opacity: 0.7;
+}
+
+.pulse-dot.delay-2 {
+  animation-delay: 1s;
+  width: 20px;
+  height: 20px;
+  opacity: 0.4;
+}
+
+@keyframes pulse {
+  0% {
+    transform: translate(-50%, -50%) scale(1);
+    opacity: 1;
+  }
+  100% {
+    transform: translate(-50%, -50%) scale(3);
+    opacity: 0;
+  }
+}
+
+/* Section Titles */
+.section-title {
+  text-align: center;
+  margin-bottom: 60px;
+  position: relative;
+}
+
+.section-title h2 {
+  color: var(--primary);
+  font-size: 2.5rem;
+  margin-bottom: 15px;
+  font-weight: 700;
+}
+
+.title-decoration {
+  width: 80px;
+  height: 4px;
+  background: linear-gradient(90deg, var(--primary), var(--secondary));
+  margin: 0 auto;
+  border-radius: 2px;
+}
+
+/* Loan Options */
+.loan-options {
+  padding: 80px 20px;
+  max-width: 1200px;
+  margin: 0 auto;
+  position: relative;
+}
+
+.loan-cards {
+  display: flex;
+  justify-content: center;
+  gap: 30px;
+  flex-wrap: wrap;
+}
+
+.loan-card {
+  background: white;
+  border-radius: 15px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+  width: 100%;
+  max-width: 450px;
+  overflow: hidden;
+  transition: all 0.3s ease;
+  position: relative;
+  z-index: 2;
+}
+
+.loan-card:hover {
+  transform: translateY(-10px);
+  box-shadow: 0 15px 40px rgba(0, 0, 0, 0.12);
+}
+
+.loan-card.featured {
+  border: 2px solid var(--secondary);
+}
+
+.feature-badge {
+  position: absolute;
+  top: 20px;
+  right: -30px;
+  background-color: var(--secondary);
+  color: white;
+  padding: 5px 30px;
+  font-size: 0.9rem;
+  font-weight: 600;
+  transform: rotate(45deg);
+  z-index: 3;
+}
+
+.card-image {
+  height: 200px;
+  position: relative;
+  overflow: hidden;
+}
+
+.card-image img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.5s ease;
+}
+
+.loan-card:hover .card-image img {
+  transform: scale(1.05);
+}
+
+.image-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(to bottom, rgba(0,0,0,0.1), rgba(0,0,0,0.3));
+}
+
+.card-header {
+  color: white;
+  padding: 25px;
+  position: relative;
+}
+
+.card-header.personal-loan {
+  background: linear-gradient(135deg, var(--primary) 0%, var(--primary-light) 100%);
+}
+
+.card-header.business-loan {
+  background: linear-gradient(135deg, var(--secondary) 0%, var(--secondary-light) 100%);
+}
+
+.card-header h3 {
+  font-size: 1.8rem;
+  margin-bottom: 10px;
+  font-weight: 600;
+}
+
+.loan-amount {
+  font-size: 2rem;
+  font-weight: 700;
+}
+
+.card-body {
+  padding: 30px;
+}
+
+.loan-features {
+  list-style: none;
+  padding: 0;
+  margin-bottom: 30px;
+}
+
+.loan-features li {
+  padding: 10px 0;
+  position: relative;
+  padding-left: 35px;
+  font-size: 1.1rem;
+}
+
+.loan-features li:before {
+  content: "✓";
+  position: absolute;
+  left: 0;
+  color: var(--success);
+  font-weight: bold;
+  font-size: 1.3rem;
+}
+
+.requirements {
+  background-color: var(--light);
+  padding: 20px;
+  border-radius: 10px;
+  margin-bottom: 30px;
+  border-left: 4px solid var(--primary);
+}
+
+.requirements h4 {
+  color: var(--primary);
+  margin-bottom: 15px;
+  font-size: 1.2rem;
+}
+
+.requirements ul {
+  list-style: none;
+  padding: 0;
+}
+
+.requirements li {
+  padding: 8px 0;
+  position: relative;
+  padding-left: 30px;
+  color: var(--dark);
+}
+
+.requirements li:before {
+  content: "•";
+  position: absolute;
+  left: 10px;
+  color: var(--secondary);
+  font-size: 1.5rem;
+  line-height: 0;
+}
+
+.apply-button {
+  background: linear-gradient(to right, var(--secondary), var(--secondary-light));
+  color: white;
+  border: none;
+  padding: 15px 25px;
+  width: 100%;
+  border-radius: 8px;
+  font-size: 1.1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 15px rgba(217, 119, 6, 0.3);
+}
+
+.apply-button:hover {
+  background: linear-gradient(to right, var(--secondary-light), var(--secondary));
+  box-shadow: 0 6px 20px rgba(217, 119, 6, 0.4);
+}
+
+/* Verification Process */
+.verification-process {
+  padding: 100px 20px;
+  color: white;
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+}
+
+.process-background {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(135deg, var(--primary) 0%, #2563EB 100%);
+  z-index: 1;
+}
+
+.process-background:before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: url('../assets/map.png') repeat;
+  opacity: 0.05;
+}
+
+.process-content {
+  position: relative;
+  z-index: 2;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.verification-process .section-title h2 {
+  color: white;
+}
+
+.process-steps {
+  display: flex;
+  justify-content: center;
+  gap: 30px;
+  flex-wrap: wrap;
+  margin-top: 50px;
+}
+
+.step {
+  background: rgba(255, 255, 255, 0.1);
+  padding: 40px 30px;
+  border-radius: 15px;
+  width: 100%;
+  max-width: 300px;
+  backdrop-filter: blur(5px);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  transition: all 0.3s ease;
+}
+
+.step:hover {
+  background: rgba(255, 255, 255, 0.15);
+  transform: translateY(-5px);
+}
+
+.step-icon {
+  width: 80px;
+  height: 80px;
+  background-color: white;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto 20px;
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+}
+
+.step-icon img {
+  width: 50px;
+  height: 50px;
+}
+
+.step-number {
+  background: white;
+  color: var(--primary);
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.2rem;
+  font-weight: 700;
+  margin: 0 auto 20px;
+}
+
+.step h3 {
+  font-size: 1.5rem;
+  margin-bottom: 15px;
+  font-weight: 600;
+}
+
+.step p {
+  opacity: 0.9;
+  line-height: 1.6;
+  font-size: 1.1rem;
+}
+
+/* Branch Locations */
+.branch-locations {
+  padding: 100px 20px;
+  background-color: var(--light);
+}
+
+.location-content {
+  max-width: 1200px;
+  margin: 0 auto;
+  display: flex;
+  align-items: center;
+  gap: 50px;
+  flex-wrap: wrap;
+}
+
+.location-text {
+  flex: 1;
+  min-width: 300px;
+  text-align: left;
+}
+
+.location-text h2 {
+  color: var(--primary);
+  font-size: 2.5rem;
+  margin-bottom: 20px;
+  font-weight: 700;
+}
+
+.location-text p {
+  color: var(--gray);
+  margin-bottom: 30px;
+  font-size: 1.1rem;
+  line-height: 1.8;
+}
+
+.location-button {
+  background: linear-gradient(to right, var(--primary), var(--primary-light));
+  color: white;
+  border: none;
+  padding: 15px 30px;
+  border-radius: 8px;
+  font-size: 1.1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 15px rgba(30, 58, 138, 0.3);
+}
+
+.location-button:hover {
+  background: linear-gradient(to right, var(--primary-light), var(--primary));
+  box-shadow: 0 6px 20px rgba(30, 58, 138, 0.4);
+}
+
+.location-image {
+  flex: 1;
+  min-width: 300px;
+  border-radius: 15px;
+  overflow: hidden;
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+}
+
+.location-image img {
+  width: 100%;
+  height: auto;
+  display: block;
+  transition: transform 0.5s ease;
+}
+
+.location-image:hover img {
+  transform: scale(1.05);
+}
+
+/* Responsive Design */
+@media (max-width: 1024px) {
+  .loan-intro h1 {
+    font-size: 2.5rem;
+  }
+  
+  .section-title h2 {
+    font-size: 2.2rem;
+  }
+}
+
+@media (max-width: 768px) {
+  .loan-intro {
+    padding: 80px 20px;
+  }
+  
+  .loan-intro h1 {
+    font-size: 2.2rem;
+  }
+  
+  .process-steps {
+    flex-direction: column;
+    align-items: center;
+  }
+  
+  .step {
+    margin-bottom: 30px;
+    max-width: 100%;
+  }
+  
+  .location-content {
+    flex-direction: column;
+  }
+  
+  .location-text {
+    text-align: center;
+  }
+}
+
+@media (max-width: 480px) {
+  .loan-intro h1 {
+    font-size: 2rem;
+  }
+  
+  .section-title h2 {
+    font-size: 1.8rem;
+  }
+  
+  .card-header h3 {
+    font-size: 1.5rem;
+  }
+  
+  .loan-amount {
+    font-size: 1.5rem;
+  }
+}
+/* Quote Modal Styles */
+.quote-modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(0, 0, 0, 0.7);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 1000;
+  }
+  
+  .quote-modal {
+    background-color: white;
+    padding: 40px;
+    border-radius: 15px;
+    width: 100%;
+    max-width: 500px;
+    position: relative;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+  }
+  
+  .close-modal {
+    position: absolute;
+    top: 15px;
+    right: 15px;
+    background: none;
+    border: none;
+    font-size: 1.5rem;
+    cursor: pointer;
+    color: var(--gray);
+  }
+  
+  .quote-modal h3 {
+    color: var(--primary);
+    margin-bottom: 10px;
+    font-size: 1.8rem;
+  }
+  
+  .quote-modal p {
+    color: var(--gray);
+    margin-bottom: 30px;
+  }
+  
+  .form-group {
+    margin-bottom: 20px;
+  }
+  
+  .form-group label {
+    display: block;
+    margin-bottom: 8px;
+    color: var(--dark);
+    font-weight: 500;
+  }
+  
+  .form-group input,
+  .form-group select {
+    width: 100%;
+    padding: 12px 15px;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    font-size: 1rem;
+    transition: border-color 0.3s ease;
+  }
+  
+  .form-group input:focus,
+  .form-group select:focus {
+    outline: none;
+    border-color: var(--primary);
+  }
+  
+  .submit-quote {
+    background: linear-gradient(to right, var(--secondary), var(--secondary-light));
+    color: white;
+    border: none;
+    padding: 15px 25px;
+    width: 100%;
+    border-radius: 8px;
+    font-size: 1.1rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 15px rgba(217, 119, 6, 0.3);
+    margin-top: 20px;
+  }
+  
+  .submit-quote:hover {
+    background: linear-gradient(to right, var(--secondary-light), var(--secondary));
+    box-shadow: 0 6px 20px rgba(217, 119, 6, 0.4);
+  }
+  /* Quote Modal Styles */
+.quote-modal {
+    position: fixed;
+    top: 80px; /* Adjust this value based on your navigation bar height */
+    left: 50%;
+    transform: translateX(-50%);
+    background-color: white;
+    border-radius: 15px;
+    width: 100%;
+    max-width: 500px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+    max-height: calc(100vh - 100px); /* Leave space for nav bar and some margin */
+    display: flex;
+    flex-direction: column;
+    z-index: 1000; /* Ensure it’s above other content */
+  }
+  
+  .quote-modal-content {
+    padding: 40px;
+    overflow-y: auto; /* Enable scrolling if content overflows */
+    flex: 1; /* Take up available space */
+  }
+  
+  .close-modal {
+    position: absolute;
+    top: 15px;
+    right: 15px;
+    background: none;
+    border: none;
+    font-size: 1.5rem;
+    cursor: pointer;
+    color: var(--gray);
+    z-index: 1; /* Ensure it’s above scrollable content */
+  }
+  
+  .quote-modal h3 {
+    color: var(--primary);
+    margin-bottom: 10px;
+    font-size: 1.8rem;
+  }
+  
+  .quote-modal p {
+    color: var(--gray);
+    margin-bottom: 30px;
+  }
+  
+  .form-group {
+    margin-bottom: 20px;
+  }
+  
+  .form-group label {
+    display: block;
+    margin-bottom: 8px;
+    color: var(--dark);
+    font-weight: 500;
+  }
+  
+  .form-group input,
+  .form-group select {
+    width: 100%;
+    padding: 12px 15px;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    font-size: 1rem;
+    transition: border-color 0.3s ease;
+  }
+  
+  .form-group input:focus,
+  .form-group select:focus {
+    outline: none;
+    border-color: var(--primary);
+  }
+  
+  .submit-quote {
+    background: linear-gradient(to right, var(--secondary), var(--secondary-light));
+    color: white;
+    border: none;
+    padding: 15px 25px;
+    width: 100%;
+    border-radius: 8px;
+    font-size: 1.1rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 15px rgba(217, 119, 6, 0.3);
+    margin-top: 20px;
+  }
+  
+  .submit-quote:hover {
+    background: linear-gradient(to right, var(--secondary-light), var(--secondary));
+    box-shadow: 0 6px 20px rgba(217, 119, 6, 0.4);
+  }
+  
+  /* Responsive Modal */
+  @media (max-width: 600px) {
+    .quote-modal {
+      max-width: 90%;
+      top: 70px; /* Slightly less for smaller screens */
+      max-height: calc(100vh - 90px);
+    }
+  
+    .quote-modal-content {
+      padding: 30px 20px;
+    }
+  
+    .quote-modal h3 {
+      font-size: 1.5rem;
+    }
+  
+    .form-group input,
+    .form-group select {
+      font-size: 0.9rem;
+    }
+  
+    .submit-quote {
+      font-size: 1rem;
+    }
+  }
+  /* Responsive Modal */
+  @media (max-width: 600px) {
+    .quote-modal {
+      padding: 30px 20px;
+      margin: 0 15px;
+    }
+  } /* Quote Modal Styles */
+.quote-modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.7);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+  padding: 20px; /* Add padding to prevent edge overflow */
+}
+
+.quote-modal {
+  background-color: white;
+  border-radius: 15px;
+  width: 100%;
+  max-width: 500px;
+  position: relative;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+  max-height: 90vh; /* Limit height to 90% of viewport height */
+  display: flex;
+  flex-direction: column;
+}
+
+.quote-modal-content {
+  padding: 40px;
+  overflow-y: auto; /* Enable vertical scrolling */
+  flex: 1; /* Allow content to take available space */
+}
+
+.close-modal {
+  position: absolute;
+  top: 15px;
+  right: 15px;
+  background: none;
+  border: none;
+  font-size: 1.5rem;
+  cursor: pointer;
+  color: var(--gray);
+  z-index: 1; /* Ensure it’s above scrollable content */
+}
+
+.quote-modal h3 {
+  color: var(--primary);
+  margin-bottom: 10px;
+  font-size: 1.8rem;
+}
+
+.quote-modal p {
+  color: var(--gray);
+  margin-bottom: 30px;
+}
+
+.form-group {
+  margin-bottom: 20px;
+}
+
+.form-group label {
+  display: block;
+  margin-bottom: 8px;
+  color: var(--dark);
+  font-weight: 500;
+}
+
+.form-group input,
+.form-group select {
+  width: 100%;
+  padding: 12px 15px;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  font-size: 1rem;
+  transition: border-color 0.3s ease;
+}
+
+.form-group input:focus,
+.form-group select:focus {
+  outline: none;
+  border-color: var(--primary);
+}
+
+.submit-quote {
+  background: linear-gradient(to right, var(--secondary), var(--secondary-light));
+  color: white;
+  border: none;
+  padding: 15px 25px;
+  width: 100%;
+  border-radius: 8px;
+  font-size: 1.1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 15px rgba(217, 119, 6, 0.3);
+  margin-top: 20px;
+}
+
+.submit-quote:hover {
+  background: linear-gradient(to right, var(--secondary-light), var(--secondary));
+  box-shadow: 0 6px 20px rgba(217, 119, 6, 0.4);
+}
+
+/* Responsive Modal */
+@media (max-width: 600px) {
+  .quote-modal {
+    max-width: 90%; /* Reduce width on smaller screens */
+    max-height: 85vh; /* Slightly smaller max height */
+  }
+
+  .quote-modal-content {
+    padding: 30px 20px;
+  }
+
+  .quote-modal h3 {
+    font-size: 1.5rem;
+  }
+
+  .form-group input,
+  .form-group select {
+    font-size: 0.9rem;
+  }
+
+  .submit-quote {
+    font-size: 1rem;
+  }
+}
+/* Quote Modal Styles */
+.quote-modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(0, 0, 0, 0.7);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 1000;
+    padding: 20px; /* Add padding to prevent edge overflow */
+  }
+  
+  .quote-modal {
+    background-color: white;
+    border-radius: 15px;
+    width: 100%;
+    max-width: 500px;
+    position: relative;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+    max-height: 90vh; /* Limit height to 90% of viewport height */
+    display: flex;
+    flex-direction: column;
+  }
+  
+  .quote-modal-content {
+    padding: 40px;
+    overflow-y: auto; /* Enable vertical scrolling */
+    flex: 1; /* Allow content to take available space */
+  }
+  
+  .close-modal {
+    position: absolute;
+    top: 15px;
+    right: 15px;
+    background: none;
+    border: none;
+    font-size: 1.5rem;
+    cursor: pointer;
+    color: var(--gray);
+    z-index: 1; /* Ensure it’s above scrollable content */
+  }
+  
+  .quote-modal h3 {
+    color: var(--primary);
+    margin-bottom: 10px;
+    font-size: 1.8rem;
+  }
+  
+  .quote-modal p {
+    color: var(--gray);
+    margin-bottom: 30px;
+  }
+  
+  .form-group {
+    margin-bottom: 20px;
+  }
+  
+  .form-group label {
+    display: block;
+    margin-bottom: 8px;
+    color: var(--dark);
+    font-weight: 500;
+  }
+  
+  .form-group input,
+  .form-group select {
+    width: 100%;
+    padding: 12px 15px;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    font-size: 1rem;
+    transition: border-color 0.3s ease;
+  }
+  
+  .form-group input:focus,
+  .form-group select:focus {
+    outline: none;
+    border-color: var(--primary);
+  }
+  
+  .submit-quote {
+    background: linear-gradient(to right, var(--secondary), var(--secondary-light));
+    color: white;
+    border: none;
+    padding: 15px 25px;
+    width: 100%;
+    border-radius: 8px;
+    font-size: 1.1rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 15px rgba(217, 119, 6, 0.3);
+    margin-top: 20px;
+  }
+  
+  .submit-quote:hover {
+    background: linear-gradient(to right, var(--secondary-light), var(--secondary));
+    box-shadow: 0 6px 20px rgba(217, 119, 6, 0.4);
+  }
+  
+  /* Responsive Modal */
+  @media (max-width: 600px) {
+    .quote-modal {
+      max-width: 90%; /* Reduce width on smaller screens */
+      max-height: 85vh; /* Slightly smaller max height */
+    }
+  
+    .quote-modal-content {
+      padding: 30px 20px;
+    }
+  
+    .quote-modal h3 {
+      font-size: 1.5rem;
+    }
+  
+    .form-group input,
+    .form-group select {
+      font-size: 0.9rem;
+    }
+  
+    .submit-quote {
+      font-size: 1rem;
+    }
+  }
