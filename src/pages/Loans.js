@@ -8,9 +8,9 @@ import "./Loans.css";
 import personalLoanImg from "../assets/mel.jpg";
 import businessLoanImg from "../assets/mel.jpg";
 import verificationImg from "../assets/mel.jpg";
-import branchLocationImg from "../assets/map.png";
-import moneyTransfer from "../assets/map.png";
-import documentCheck from "../assets/map.png";
+import branchLocationImg from "../assets/hg.png";
+import moneyTransfer from "../assets/hg.png";
+import documentCheck from "../assets/hg.png";
 
 const Loans = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
