@@ -1,6 +1,6 @@
 import React from "react";
 import { motion } from "framer-motion";
-import HowItWorksHero from "C:/Users/Mpange/Desktop/final/src/components/heros/HowItWorksHero"; // Corrected path
+import HowItWorksHero from "../components/heros/HowItWorksHero"; // Corrected path
 import "./HowItWorks.css";
 
 const HowItWorks = () => {
