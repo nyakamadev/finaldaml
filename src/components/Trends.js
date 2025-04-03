@@ -5,10 +5,10 @@ import damlImage from "../assets/daml.jpg";
 
 const Trends = () => {
   const partnerships = [
-    { text: "Memorandum of Understanding with Bank of Zambia", id: 1 },
-    { text: "Official partner of Zambia National Chamber of Commerce", id: 2 },
-    { text: "Collaboration with Ministry of Small Business Development", id: 3 },
-    { text: "Strategic alliance with Zambia Association of Microfinance Institutions", id: 4 },
+    { text: "Memorandum of Understanding with federation for free trade unions FFTUZ", id: 1 },
+    { text: "Memorandum of Understanding with National union for private and public prosecutors", id: 2 },
+    { text: "Memorandum of Understanding with  family in Christ mission", id: 3 },
+    { text: "Memorandum of Understanding with mbala training institute", id: 4 },
   ];
 
   const containerVariants = {
