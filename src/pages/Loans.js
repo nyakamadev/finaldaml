@@ -6,7 +6,12 @@ import Footer from "../components/Footer";
 import "./Loans.css";
 
 // Icons
-import { FiCheck, FiX, FiUpload, FiSend, FiDollarSign, FiBriefcase, FiFileText, FiUserCheck, FiCreditCard } from "react-icons/fi";
+import { FiCheck, FiX, FiUpload, FiSend, FiDollarSign, FiBriefcase, FiFileText, FiUserCheck, FiCreditCard, FiClock, FiPhone, FiMail, FiMapPin } from "react-icons/fi";
+
+// Images - You'll need to replace these with your actual images
+import personalLoanImage from "../assets/personal-loan.jpg";
+import businessLoanImage from "../assets/business-loan.jpg";
+import branchImage from "../assets/branch-location.jpg";
 
 const Loans = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -26,6 +31,42 @@ const Loans = () => {
 
   const nextStep = () => setActiveStep(prev => Math.min(prev + 1, 3));
   const prevStep = () => setActiveStep(prev => Math.max(prev - 1, 1));
+
+  // Branch data
+  const branches = [
+    {
+      name: "Lusaka Main Branch",
+      location: "Cairo Road, Lusaka City Center",
+      phone: "+260 211 123456",
+      email: "lusaka@yourfinance.com",
+      hours: "Mon-Fri: 8:00 AM - 5:00 PM\nSat: 9:00 AM - 1:00 PM",
+      image: branchImage
+    },
+    {
+      name: "Mazabuka Branch",
+      location: "Independence Avenue, Mazabuka Town Center",
+      phone: "+260 213 456789",
+      email: "mazabuka@yourfinance.com",
+      hours: "Mon-Fri: 8:30 AM - 4:30 PM\nSat: 9:00 AM - 12:00 PM",
+      image: branchImage
+    },
+    {
+      name: "Monze Branch",
+      location: "Main Street, Monze Central Business District",
+      phone: "+260 214 789012",
+      email: "monze@yourfinance.com",
+      hours: "Mon-Fri: 8:00 AM - 5:00 PM\nSat: Closed",
+      image: branchImage
+    },
+    {
+      name: "Solwezi Branch",
+      location: "Kansenshi Road, Solwezi Town Center",
+      phone: "+260 218 345678",
+      email: "solwezi@yourfinance.com",
+      hours: "Mon-Fri: 8:00 AM - 5:00 PM\nSat: 9:00 AM - 1:00 PM",
+      image: branchImage
+    }
+  ];
 
   return (
     <div className="loans-page">
@@ -115,6 +156,10 @@ const Loans = () => {
             viewport={{ once: true }}
             className="loan-card personal"
           >
+            <div className="card-image">
+              <img src={personalLoanImage} alt="Personal loan" />
+              <div className="image-overlay"></div>
+            </div>
             <div className="card-badge">
               <FiUserCheck size={20} />
             </div>
@@ -157,6 +202,10 @@ const Loans = () => {
             viewport={{ once: true }}
             className="loan-card business featured"
           >
+            <div className="card-image">
+              <img src={businessLoanImage} alt="Business loan" />
+              <div className="image-overlay"></div>
+            </div>
             <div className="card-badge popular">
               <span>Most Popular</span>
             </div>
@@ -317,8 +366,8 @@ const Loans = () => {
             viewport={{ once: true }}
             className="section-header"
           >
-            <h2>Simple <span className="highlight">3-Step</span> Process</h2>
-            <p>Get funded quickly with our streamlined application</p>
+            <h2><span className="white-text">Simple</span> <span className="orange-text">3-Step</span> Process</h2>
+            <p className="white-text">Get funded quickly with our streamlined application</p>
             <div className="header-decoration light"></div>
           </motion.div>
           
@@ -371,40 +420,42 @@ const Loans = () => {
           className="locations-content"
         >
           <div className="locations-text">
-            <h2>Visit Our <span className="highlight">Branches</span></h2>
+            <h2>Our <span className="highlight">Branch Network</span></h2>
             <p>
               With locations across Zambia, our friendly staff are ready to assist you 
               with your loan application and financial needs.
             </p>
-            <div className="locations-list">
-              <div className="location">
-                <h4>Lusaka</h4>
-                <p>Cairo Road, Lusaka City Center</p>
-              </div>
-              <div className="location">
-                <h4>Ndola</h4>
-                <p>President Avenue, Town Center</p>
-              </div>
-              <div className="location">
-                <h4>Livingstone</h4>
-                <p>Mosi-oa-Tunya Road, Tourist District</p>
-              </div>
-            </div>
-            <motion.button
-              whileHover={{ scale: 1.03 }}
-              whileTap={{ scale: 0.97 }}
-              className="location-button"
-            >
-              View All Branches
-            </motion.button>
           </div>
           
-          <div className="locations-map">
-            <div className="map-placeholder">
-              <div className="map-marker lusaka"></div>
-              <div className="map-marker ndola"></div>
-              <div className="map-marker livingstone"></div>
-            </div>
+          <div className="branches-grid">
+            {branches.map((branch, index) => (
+              <div key={index} className="branch-card">
+                <div className="branch-image">
+                  <img src={branch.image} alt={branch.name} />
+                </div>
+                <div className="branch-details">
+                  <h3>{branch.name}</h3>
+                  <div className="branch-info">
+                    <div className="info-item">
+                      <FiMapPin className="info-icon" />
+                      <span>{branch.location}</span>
+                    </div>
+                    <div className="info-item">
+                      <FiPhone className="info-icon" />
+                      <span>{branch.phone}</span>
+                    </div>
+                    <div className="info-item">
+                      <FiMail className="info-icon" />
+                      <span>{branch.email}</span>
+                    </div>
+                    <div className="info-item">
+                      <FiClock className="info-icon" />
+                      <span style={{ whiteSpace: 'pre-line' }}>{branch.hours}</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            ))}
           </div>
         </motion.div>
       </section>
