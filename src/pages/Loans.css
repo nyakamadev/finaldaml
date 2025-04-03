@@ -926,38 +926,42 @@ body {
   }
 }
 /* Quote Modal Styles */
+/* Quote Modal Styles */
 .quote-modal-overlay {
-    position: fixed;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background-color: rgba(0, 0, 0, 0.7);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    z-index: 1000;
-    padding: 20px; /* Add padding to prevent edge overflow */
-  }
-  
-  .quote-modal {
-    background-color: white;
-    border-radius: 15px;
-    width: 100%;
-    max-width: 500px;
-    position: relative;
-    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
-    max-height: 90vh; /* Limit height to 90% of viewport height */
-    display: flex;
-    flex-direction: column;
-  }
-  
-  .quote-modal-content {
-    padding: 40px;
-    overflow-y: auto; /* Enable vertical scrolling */
-    flex: 1; /* Allow content to take available space */
-  }
-  
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.7);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+  padding: 20px;
+  overflow-y: auto; /* Enable scrolling if content is taller than viewport */
+}
+
+.quote-modal {
+  background-color: white;
+  border-radius: 15px;
+  width: 100%;
+  max-width: 500px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+  max-height: 90vh;
+  display: flex;
+  flex-direction: column;
+  margin: auto; /* Helps with centering */
+  position: relative; /* Needed for close button positioning */
+}
+
+.quote-modal-content {
+  padding: 40px;
+  overflow-y: auto;
+  flex: 1;
+}
+
+/* The rest of your existing modal styles remain the same */
   .close-modal {
     position: absolute;
     top: 15px;
