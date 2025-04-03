@@ -67,17 +67,19 @@ const Home = () => {
     setConvertedAmount(`${result.toFixed(2)} ${toCurrency}`);
   };
 
+  // Loan Calculator Logic
   const calculateLoan = () => {
     const principal = parseFloat(loanAmount);
     const rate = parseFloat(interestRate) / 100 / 12; // Monthly interest rate
     const term = parseFloat(loanTerm);
 
     if (isNaN(principal) || isNaN(rate) || isNaN(term) || principal <= 0 || rate < 0 || term <= 0) {
-      setMonthlyPayment("Please enter valid positive values");
+      setMonthlyPayment("Please enter valid values");
       setTotalRepayment(null);
       return;
     }
 
+    // Monthly payment formula: P * [r(1 + r)^n] / [(1 + r)^n - 1]
     const monthly = (principal * rate * Math.pow(1 + rate, term)) / (Math.pow(1 + rate, term) - 1);
     const total = monthly * term;
 
@@ -214,9 +216,6 @@ const Home = () => {
           transition={{ duration: 0.8 }}
           viewport={{ once: true }}
         >
-          <p className="calculator-intro">
-            Estimate your loan repayments in Zambian Kwacha (ZMW). Enter your desired loan amount, annual interest rate, and repayment term to see your monthly payments and total cost. This tool helps you plan your finances with ease!
-          </p>
           <div className="calculator-inputs">
             <div className="input-group">
               <label>Loan Amount (ZMW)</label>
@@ -224,10 +223,9 @@ const Home = () => {
                 type="number"
                 value={loanAmount}
                 onChange={(e) => setLoanAmount(e.target.value)}
-                placeholder="e.g., 5000 - 50,000"
+                placeholder="e.g., 5000"
                 className="calculator-input"
               />
-              <span className="input-hint">Typical range: 1,000 - 100,000 ZMW</span>
             </div>
             <div className="input-group">
               <label>Interest Rate (%)</label>
@@ -235,10 +233,9 @@ const Home = () => {
                 type="number"
                 value={interestRate}
                 onChange={(e) => setInterestRate(e.target.value)}
-                placeholder="e.g., 10 - 25"
+                placeholder="e.g., 15"
                 className="calculator-input"
               />
-              <span className="input-hint">Annual rate, e.g., 15%</span>
             </div>
             <div className="input-group">
               <label>Loan Term (Months)</label>
@@ -246,10 +243,9 @@ const Home = () => {
                 type="number"
                 value={loanTerm}
                 onChange={(e) => setLoanTerm(e.target.value)}
-                placeholder="e.g., 6 - 36"
+                placeholder="e.g., 12"
                 className="calculator-input"
               />
-              <span className="input-hint">Typically 3 - 60 months</span>
             </div>
           </div>
           <motion.button
@@ -258,18 +254,15 @@ const Home = () => {
             onClick={calculateLoan}
             className="calculate-button"
           >
-            Calculate Your Payment
+            Calculate
           </motion.button>
           {monthlyPayment && (
             <div className="calculator-result">
               <p>Monthly Payment: <span>ZMW {monthlyPayment}</span></p>
               {totalRepayment && <p>Total Repayment: <span>ZMW {totalRepayment}</span></p>}
-              <p className="result-note">This is an estimate based on a fixed interest rate. Actual terms may vary.</p>
             </div>
           )}
-          <p className="calculator-note">
-            Need a custom loan plan? <a href="/contact" className="contact-link">Contact us</a> for personalized assistance.
-          </p>
+          <p className="calculator-note">Note: This is an estimate. Contact us for exact terms.</p>
         </motion.div>
       </section>
 
