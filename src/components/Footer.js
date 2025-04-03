@@ -41,9 +41,8 @@ const Footer = () => {
         {/* Center column */}
         <div className="footer-center">
           <p>
-          room 4 Napsa Building Monze <br />
-          Call: +260 777518123  <br />
-
+            Room 4 Napsa Building Monze <br />
+            Call: +260 777518123 <br />
           </p>
         </div>
 
@@ -65,6 +64,9 @@ const Footer = () => {
             <p>Mpangenshi? Call +26 0972276257</p>
           </div>
         </div>
+      </div>
+      <div className="footer-copyright">
+        <p>All Rights Reserved Direct Access Money Lending © 2025</p>
       </div>
     </footer>
   );

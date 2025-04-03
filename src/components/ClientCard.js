@@ -48,7 +48,7 @@ const ClientCard = () => {
             fontWeight: '600'
           }}>
             Already a<br />
-            <span style={{ color: '#FFDB58' }}>client?</span>
+            <span style={{ color: '#D97706' }}>client?</span>
           </h2>
           
           <div style={{ marginBottom: '2rem' }}>
@@ -73,13 +73,13 @@ const ClientCard = () => {
               <br/>Next Option 1 <strong>'Enter Merchant Code'</strong>
               <br/> Enter: <strong>DIRECTAML</strong> as 'Merchant Code'
               <br/> Enter: <strong>Amount to pay</strong>
-              <br/> Enter: <strong>Your NRC No. eg. 421345/88/1 and Branch name eg Mbala</strong> <br/>
+              <br/> Enter: <strong>Your NRC No. eg. ******/**/* and Branch name eg Mbala</strong> <br/>
               Are you Stuck??  <br/>Call us <strong>+260777518123</strong>
             </p>
           </div>
 
           <button style={{ 
-            backgroundColor: '#FFDB58',
+            backgroundColor: '#D97706',
             color: 'white',
             padding: '12px 30px',
             borderRadius: '25px',
