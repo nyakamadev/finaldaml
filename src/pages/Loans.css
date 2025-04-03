@@ -1,5 +1,4 @@
 /* Loans.css */
-
 @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
 
 :root {
@@ -526,6 +525,114 @@ body {
   transform: scale(1.05);
 }
 
+/* Quote Modal Styles */
+.quote-modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.7);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+  padding: 20px;
+  overflow-y: auto;
+}
+
+.quote-modal {
+  background-color: white;
+  border-radius: 15px;
+  width: 100%;
+  max-width: 500px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+  max-height: 90vh;
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  margin: auto;
+}
+
+.quote-modal-content {
+  padding: 40px;
+  overflow-y: auto;
+  flex: 1;
+}
+
+.close-modal {
+  position: absolute;
+  top: 15px;
+  right: 15px;
+  background: none;
+  border: none;
+  font-size: 1.5rem;
+  cursor: pointer;
+  color: var(--gray);
+  z-index: 1;
+}
+
+.quote-modal h3 {
+  color: var(--primary);
+  margin-bottom: 10px;
+  font-size: 1.8rem;
+  text-align: center;
+}
+
+.quote-modal p {
+  color: var(--gray);
+  margin-bottom: 30px;
+  text-align: center;
+}
+
+.form-group {
+  margin-bottom: 20px;
+}
+
+.form-group label {
+  display: block;
+  margin-bottom: 8px;
+  color: var(--dark);
+  font-weight: 500;
+}
+
+.form-group input,
+.form-group select,
+.form-group input[type="file"] {
+  width: 100%;
+  padding: 12px 15px;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  font-size: 1rem;
+  transition: border-color 0.3s ease;
+}
+
+.form-group input:focus,
+.form-group select:focus {
+  outline: none;
+  border-color: var(--primary);
+}
+
+.submit-quote {
+  background: linear-gradient(to right, var(--secondary), var(--secondary-light));
+  color: white;
+  border: none;
+  padding: 15px 25px;
+  width: 100%;
+  border-radius: 8px;
+  font-size: 1.1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 15px rgba(217, 119, 6, 0.3);
+  margin-top: 20px;
+}
+
+.submit-quote:hover {
+  background: linear-gradient(to right, var(--secondary-light), var(--secondary));
+  box-shadow: 0 6px 20px rgba(217, 119, 6, 0.4);
+}
+
 /* Responsive Design */
 @media (max-width: 1024px) {
   .loan-intro h1 {
@@ -565,6 +672,33 @@ body {
   }
 }
 
+@media (max-width: 600px) {
+  .quote-modal {
+    max-width: 95%;
+    max-height: 95vh;
+  }
+
+  .quote-modal-content {
+    padding: 30px 20px;
+  }
+
+  .quote-modal h3 {
+    font-size: 1.5rem;
+  }
+
+  .form-group input,
+  .form-group select,
+  .form-group input[type="file"] {
+    font-size: 0.9rem;
+    padding: 10px 12px;
+  }
+
+  .submit-quote {
+    font-size: 1rem;
+    padding: 12px 20px;
+  }
+}
+
 @media (max-width: 480px) {
   .loan-intro h1 {
     font-size: 2rem;
@@ -580,478 +714,5 @@ body {
   
   .loan-amount {
     font-size: 1.5rem;
-  }
-}
-/* Quote Modal Styles */
-.quote-modal-overlay {
-    position: fixed;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background-color: rgba(0, 0, 0, 0.7);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    z-index: 1000;
-  }
-  
-  .quote-modal {
-    background-color: white;
-    padding: 40px;
-    border-radius: 15px;
-    width: 100%;
-    max-width: 500px;
-    position: relative;
-    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
-  }
-  
-  .close-modal {
-    position: absolute;
-    top: 15px;
-    right: 15px;
-    background: none;
-    border: none;
-    font-size: 1.5rem;
-    cursor: pointer;
-    color: var(--gray);
-  }
-  
-  .quote-modal h3 {
-    color: var(--primary);
-    margin-bottom: 10px;
-    font-size: 1.8rem;
-  }
-  
-  .quote-modal p {
-    color: var(--gray);
-    margin-bottom: 30px;
-  }
-  
-  .form-group {
-    margin-bottom: 20px;
-  }
-  
-  .form-group label {
-    display: block;
-    margin-bottom: 8px;
-    color: var(--dark);
-    font-weight: 500;
-  }
-  
-  .form-group input,
-  .form-group select {
-    width: 100%;
-    padding: 12px 15px;
-    border: 1px solid #ddd;
-    border-radius: 8px;
-    font-size: 1rem;
-    transition: border-color 0.3s ease;
-  }
-  
-  .form-group input:focus,
-  .form-group select:focus {
-    outline: none;
-    border-color: var(--primary);
-  }
-  
-  .submit-quote {
-    background: linear-gradient(to right, var(--secondary), var(--secondary-light));
-    color: white;
-    border: none;
-    padding: 15px 25px;
-    width: 100%;
-    border-radius: 8px;
-    font-size: 1.1rem;
-    font-weight: 600;
-    cursor: pointer;
-    transition: all 0.3s ease;
-    box-shadow: 0 4px 15px rgba(217, 119, 6, 0.3);
-    margin-top: 20px;
-  }
-  
-  .submit-quote:hover {
-    background: linear-gradient(to right, var(--secondary-light), var(--secondary));
-    box-shadow: 0 6px 20px rgba(217, 119, 6, 0.4);
-  }
-  /* Quote Modal Styles */
-.quote-modal {
-    position: fixed;
-    top: 80px; /* Adjust this value based on your navigation bar height */
-    left: 50%;
-    transform: translateX(-50%);
-    background-color: white;
-    border-radius: 15px;
-    width: 100%;
-    max-width: 500px;
-    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
-    max-height: calc(100vh - 100px); /* Leave space for nav bar and some margin */
-    display: flex;
-    flex-direction: column;
-    z-index: 1000; /* Ensure it’s above other content */
-  }
-  
-  .quote-modal-content {
-    padding: 40px;
-    overflow-y: auto; /* Enable scrolling if content overflows */
-    flex: 1; /* Take up available space */
-  }
-  
-  .close-modal {
-    position: absolute;
-    top: 15px;
-    right: 15px;
-    background: none;
-    border: none;
-    font-size: 1.5rem;
-    cursor: pointer;
-    color: var(--gray);
-    z-index: 1; /* Ensure it’s above scrollable content */
-  }
-  
-  .quote-modal h3 {
-    color: var(--primary);
-    margin-bottom: 10px;
-    font-size: 1.8rem;
-  }
-  
-  .quote-modal p {
-    color: var(--gray);
-    margin-bottom: 30px;
-  }
-  
-  .form-group {
-    margin-bottom: 20px;
-  }
-  
-  .form-group label {
-    display: block;
-    margin-bottom: 8px;
-    color: var(--dark);
-    font-weight: 500;
-  }
-  
-  .form-group input,
-  .form-group select {
-    width: 100%;
-    padding: 12px 15px;
-    border: 1px solid #ddd;
-    border-radius: 8px;
-    font-size: 1rem;
-    transition: border-color 0.3s ease;
-  }
-  
-  .form-group input:focus,
-  .form-group select:focus {
-    outline: none;
-    border-color: var(--primary);
-  }
-  
-  .submit-quote {
-    background: linear-gradient(to right, var(--secondary), var(--secondary-light));
-    color: white;
-    border: none;
-    padding: 15px 25px;
-    width: 100%;
-    border-radius: 8px;
-    font-size: 1.1rem;
-    font-weight: 600;
-    cursor: pointer;
-    transition: all 0.3s ease;
-    box-shadow: 0 4px 15px rgba(217, 119, 6, 0.3);
-    margin-top: 20px;
-  }
-  
-  .submit-quote:hover {
-    background: linear-gradient(to right, var(--secondary-light), var(--secondary));
-    box-shadow: 0 6px 20px rgba(217, 119, 6, 0.4);
-  }
-  
-  /* Responsive Modal */
-  @media (max-width: 600px) {
-    .quote-modal {
-      max-width: 90%;
-      top: 70px; /* Slightly less for smaller screens */
-      max-height: calc(100vh - 90px);
-    }
-  
-    .quote-modal-content {
-      padding: 30px 20px;
-    }
-  
-    .quote-modal h3 {
-      font-size: 1.5rem;
-    }
-  
-    .form-group input,
-    .form-group select {
-      font-size: 0.9rem;
-    }
-  
-    .submit-quote {
-      font-size: 1rem;
-    }
-  }
-  /* Responsive Modal */
-  @media (max-width: 600px) {
-    .quote-modal {
-      padding: 30px 20px;
-      margin: 0 15px;
-    }
-  } /* Quote Modal Styles */
-.quote-modal-overlay {
-  position: fixed;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background-color: rgba(0, 0, 0, 0.7);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  z-index: 1000;
-  padding: 20px; /* Add padding to prevent edge overflow */
-}
-
-.quote-modal {
-  background-color: white;
-  border-radius: 15px;
-  width: 100%;
-  max-width: 500px;
-  position: relative;
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
-  max-height: 90vh; /* Limit height to 90% of viewport height */
-  display: flex;
-  flex-direction: column;
-}
-
-.quote-modal-content {
-  padding: 40px;
-  overflow-y: auto; /* Enable vertical scrolling */
-  flex: 1; /* Allow content to take available space */
-}
-
-.close-modal {
-  position: absolute;
-  top: 15px;
-  right: 15px;
-  background: none;
-  border: none;
-  font-size: 1.5rem;
-  cursor: pointer;
-  color: var(--gray);
-  z-index: 1; /* Ensure it’s above scrollable content */
-}
-
-.quote-modal h3 {
-  color: var(--primary);
-  margin-bottom: 10px;
-  font-size: 1.8rem;
-}
-
-.quote-modal p {
-  color: var(--gray);
-  margin-bottom: 30px;
-}
-
-.form-group {
-  margin-bottom: 20px;
-}
-
-.form-group label {
-  display: block;
-  margin-bottom: 8px;
-  color: var(--dark);
-  font-weight: 500;
-}
-
-.form-group input,
-.form-group select {
-  width: 100%;
-  padding: 12px 15px;
-  border: 1px solid #ddd;
-  border-radius: 8px;
-  font-size: 1rem;
-  transition: border-color 0.3s ease;
-}
-
-.form-group input:focus,
-.form-group select:focus {
-  outline: none;
-  border-color: var(--primary);
-}
-
-.submit-quote {
-  background: linear-gradient(to right, var(--secondary), var(--secondary-light));
-  color: white;
-  border: none;
-  padding: 15px 25px;
-  width: 100%;
-  border-radius: 8px;
-  font-size: 1.1rem;
-  font-weight: 600;
-  cursor: pointer;
-  transition: all 0.3s ease;
-  box-shadow: 0 4px 15px rgba(217, 119, 6, 0.3);
-  margin-top: 20px;
-}
-
-.submit-quote:hover {
-  background: linear-gradient(to right, var(--secondary-light), var(--secondary));
-  box-shadow: 0 6px 20px rgba(217, 119, 6, 0.4);
-}
-
-/* Responsive Modal */
-@media (max-width: 600px) {
-  .quote-modal {
-    max-width: 90%; /* Reduce width on smaller screens */
-    max-height: 85vh; /* Slightly smaller max height */
-  }
-
-  .quote-modal-content {
-    padding: 30px 20px;
-  }
-
-  .quote-modal h3 {
-    font-size: 1.5rem;
-  }
-
-  .form-group input,
-  .form-group select {
-    font-size: 0.9rem;
-  }
-
-  .submit-quote {
-    font-size: 1rem;
-  }
-}
-/* Quote Modal Styles */
-.quote-modal-overlay {
-  position: fixed;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background-color: rgba(0, 0, 0, 0.7);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  z-index: 1000;
-  padding: 20px; /* Prevent edge overflow */
-  overflow-y: auto; /* Allow scrolling if modal exceeds viewport */
-}
-
-.quote-modal {
-  background-color: white;
-  border-radius: 15px;
-  width: 100%;
-  max-width: 500px;
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
-  max-height: 90vh; /* Limit height to 90% of viewport */
-  display: flex;
-  flex-direction: column;
-  position: relative; /* For close button positioning */
-}
-
-.quote-modal-content {
-  padding: 40px;
-  overflow-y: auto; /* Enable scrolling within modal if content overflows */
-  flex: 1; /* Take up available space */
-}
-
-.close-modal {
-  position: absolute;
-  top: 15px;
-  right: 15px;
-  background: none;
-  border: none;
-  font-size: 1.5rem;
-  cursor: pointer;
-  color: var(--gray);
-  z-index: 1; /* Ensure it’s above scrollable content */
-}
-
-.quote-modal h3 {
-  color: var(--primary);
-  margin-bottom: 10px;
-  font-size: 1.8rem;
-  text-align: center;
-}
-
-.quote-modal p {
-  color: var(--gray);
-  margin-bottom: 30px;
-  text-align: center;
-}
-
-.form-group {
-  margin-bottom: 20px;
-}
-
-.form-group label {
-  display: block;
-  margin-bottom: 8px;
-  color: var(--dark);
-  font-weight: 500;
-}
-
-.form-group input,
-.form-group select {
-  width: 100%;
-  padding: 12px 15px;
-  border: 1px solid #ddd;
-  border-radius: 8px;
-  font-size: 1rem;
-  transition: border-color 0.3s ease;
-}
-
-.form-group input:focus,
-.form-group select:focus {
-  outline: none;
-  border-color: var(--primary);
-}
-
-.submit-quote {
-  background: linear-gradient(to right, var(--secondary), var(--secondary-light));
-  color: white;
-  border: none;
-  padding: 15px 25px;
-  width: 100%;
-  border-radius: 8px;
-  font-size: 1.1rem;
-  font-weight: 600;
-  cursor: pointer;
-  transition: all 0.3s ease;
-  box-shadow: 0 4px 15px rgba(217, 119, 6, 0.3);
-  margin-top: 20px;
-}
-
-.submit-quote:hover {
-  background: linear-gradient(to right, var(--secondary-light), var(--secondary));
-  box-shadow: 0 6px 20px rgba(217, 119, 6, 0.4);
-}
-
-/* Responsive Modal */
-@media (max-width: 600px) {
-  .quote-modal {
-    max-width: 90%; /* Reduce width on smaller screens */
-    max-height: 85vh; /* Slightly smaller max height */
-  }
-
-  .quote-modal-content {
-    padding: 30px 20px;
-  }
-
-  .quote-modal h3 {
-    font-size: 1.5rem;
-  }
-
-  .form-group input,
-  .form-group select {
-    font-size: 0.9rem;
-  }
-
-  .submit-quote {
-    font-size: 1rem;
   }
 }
