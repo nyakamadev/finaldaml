@@ -9,9 +9,9 @@ import "./Loans.css";
 import { FiCheck, FiX, FiUpload, FiSend, FiDollarSign, FiBriefcase, FiFileText, FiUserCheck, FiCreditCard, FiClock, FiPhone, FiMail, FiMapPin } from "react-icons/fi";
 
 // Images - You'll need to replace these with your actual images
-import personalLoanImage from "../assets/personal-loan.jpg";
-import businessLoanImage from "../assets/business-loan.jpg";
-import branchImage from "../assets/branch-location.jpg";
+import personalLoanImage from "../assets/mel.jpg";
+import businessLoanImage from "../assets/mel.jpg";
+import branchImage from "../assets/mel.jpg";
 
 const Loans = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -428,35 +428,35 @@ const Loans = () => {
           </div>
           
           <div className="branches-grid">
-            {branches.map((branch, index) => (
-              <div key={index} className="branch-card">
-                <div className="branch-image">
-                  <img src={branch.image} alt={branch.name} />
-                </div>
-                <div className="branch-details">
-                  <h3>{branch.name}</h3>
-                  <div className="branch-info">
-                    <div className="info-item">
-                      <FiMapPin className="info-icon" />
-                      <span>{branch.location}</span>
-                    </div>
-                    <div className="info-item">
-                      <FiPhone className="info-icon" />
-                      <span>{branch.phone}</span>
-                    </div>
-                    <div className="info-item">
-                      <FiMail className="info-icon" />
-                      <span>{branch.email}</span>
-                    </div>
-                    <div className="info-item">
-                      <FiClock className="info-icon" />
-                      <span style={{ whiteSpace: 'pre-line' }}>{branch.hours}</span>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            ))}
+  {branches.map((branch, index) => (
+    <div key={index} className="branch-card">
+      <div className="branch-image">
+        <img src={branch.image} alt={branch.name} />
+      </div>
+      <div className="branch-details">
+        <h3>{branch.name}</h3>
+        <div className="branch-info">
+          <div className="info-item">
+            <FiMapPin className="info-icon" />
+            <span>{branch.location}</span>
           </div>
+          <div className="info-item">
+            <FiPhone className="info-icon" />
+            <span>{branch.phone}</span>
+          </div>
+          <div className="info-item">
+            <FiMail className="info-icon" />
+            <span>{branch.email}</span>
+          </div>
+          <div className="info-item">
+            <FiClock className="info-icon" />
+            <span style={{ whiteSpace: 'pre-line' }}>{branch.hours}</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  ))}
+</div>
         </motion.div>
       </section>
 

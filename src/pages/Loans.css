@@ -154,13 +154,7 @@
   50% { transform: scale(1.1); }
 }
 
-/* Loan Options */
-.loan-options {
-  padding: 80px 20px;
-  max-width: 1200px;
-  margin: 0 auto;
-}
-
+/* Section Header Styles */
 .section-header {
   text-align: center;
   margin-bottom: 60px;
@@ -190,6 +184,13 @@
 
 .header-decoration.light {
   background: linear-gradient(to right, var(--white), rgba(255, 255, 255, 0.7));
+}
+
+/* Loan Options */
+.loan-options {
+  padding: 80px 20px;
+  max-width: 1200px;
+  margin: 0 auto;
 }
 
 .loan-grid {
@@ -418,12 +419,14 @@
 .process-step h3 {
   font-size: 1.5rem;
   margin-bottom: 15px;
+  color: white;
 }
 
 .process-step p {
   opacity: 0.9;
   line-height: 1.6;
   font-size: 1.1rem;
+  color: white;
 }
 
 /* Locations Section */
@@ -435,15 +438,12 @@
 .locations-content {
   max-width: 1200px;
   margin: 0 auto;
-  display: flex;
-  flex-wrap: wrap;
-  gap: 50px;
-  align-items: center;
+  width: 100%;
 }
 
 .locations-text {
-  flex: 1;
-  min-width: 300px;
+  margin-bottom: 50px;
+  text-align: center;
 }
 
 .locations-text h2 {
@@ -454,88 +454,116 @@
 
 .locations-text p {
   color: var(--gray);
-  margin-bottom: 30px;
+  max-width: 700px;
+  margin: 0 auto;
   font-size: 1.1rem;
   line-height: 1.8;
 }
 
-.locations-list {
-  margin-bottom: 30px;
+/* Branches Grid */
+.branches-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 30px;
+  margin-top: 40px;
 }
 
-.location {
-  margin-bottom: 20px;
-}
-
-.location h4 {
-  font-size: 1.3rem;
-  color: var(--dark);
-  margin-bottom: 5px;
-}
-
-.location p {
-  color: var(--gray);
-  margin: 0;
-  font-size: 1rem;
-}
-
-.location-button {
-  background: linear-gradient(to right, var(--primary), var(--primary-light));
-  color: white;
-  border: none;
-  padding: 16px 30px;
-  border-radius: 8px;
-  font-size: 1.1rem;
-  font-weight: 600;
-  cursor: pointer;
-  transition: all 0.3s ease;
-  box-shadow: 0 4px 15px rgba(37, 99, 235, 0.3);
-}
-
-.location-button:hover {
-  background: linear-gradient(to right, var(--primary-light), var(--primary));
-  box-shadow: 0 6px 20px rgba(37, 99, 235, 0.4);
-}
-
-.locations-map {
-  flex: 1;
-  min-width: 300px;
-  height: 400px;
-  background-color: #f0f0f0;
+.branch-card {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  background: white;
   border-radius: 16px;
   overflow: hidden;
-  position: relative;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+  transition: all 0.3s ease;
 }
 
-.map-placeholder {
+.branch-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 15px 40px rgba(0, 0, 0, 0.12);
+}
+
+.branch-image {
+  height: 200px;
+  overflow: hidden;
+  flex-shrink: 0;
+}
+
+.branch-image img {
   width: 100%;
   height: 100%;
-  background-color: #e5e7eb;
+  object-fit: cover;
+  transition: transform 0.5s ease;
+}
+
+.branch-card:hover .branch-image img {
+  transform: scale(1.05);
+}
+
+.branch-details {
+  padding: 25px;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+.branch-details h3 {
+  font-size: 1.4rem;
+  margin-bottom: 15px;
+  color: var(--dark);
+  min-height: 3.5rem;
+}
+
+.branch-info {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  flex: 1;
+}
+
+.info-item {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+}
+
+.info-icon {
+  color: var(--primary);
+  margin-top: 2px;
+  flex-shrink: 0;
+}
+
+.branch-hours {
+  white-space: pre-line;
+}
+
+/* Card Images (shared between loan cards and branch cards) */
+.card-image, .branch-image {
+  height: 200px;
   position: relative;
+  overflow: hidden;
 }
 
-.map-marker {
+.card-image img, .branch-image img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.5s ease;
+}
+
+.loan-card:hover .card-image img,
+.branch-card:hover .branch-image img {
+  transform: scale(1.05);
+}
+
+.image-overlay {
   position: absolute;
-  width: 20px;
-  height: 20px;
-  background-color: var(--primary);
-  border-radius: 50%;
-  border: 3px solid white;
-}
-
-.map-marker.lusaka {
-  top: 30%;
-  left: 50%;
-}
-
-.map-marker.ndola {
-  top: 60%;
-  left: 40%;
-}
-
-.map-marker.livingstone {
-  top: 70%;
-  left: 30%;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(to bottom, rgba(0,0,0,0.1), rgba(0,0,0,0.3));
 }
 
 /* Modal Styles */
@@ -821,6 +849,15 @@
   background: var(--light);
 }
 
+/* Utility Classes */
+.white-text {
+  color: var(--white) !important;
+}
+
+.orange-text {
+  color: var(--secondary-dark) !important;
+}
+
 /* Responsive Styles */
 @media (max-width: 1024px) {
   .loan-intro h1 {
@@ -829,6 +866,15 @@
   
   .section-header h2 {
     font-size: 2.2rem;
+  }
+}
+
+@media (max-width: 900px) {
+  .branches-grid {
+    grid-template-columns: 1fr;
+    max-width: 600px;
+    margin-left: auto;
+    margin-right: auto;
   }
 }
 
@@ -846,28 +892,12 @@
     gap: 0;
   }
   
-  .locations-content {
-    flex-direction: column;
+  .locations-section {
+    padding: 80px 20px;
   }
   
-  .locations-text {
-    text-align: center;
-  }
-  
-  .locations-list {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-    gap: 20px;
-  }
-}
-
-@media (max-width: 480px) {
-  .intro-text h1 {
-    font-size: 2rem;
-  }
-  
-  .section-header h2 {
-    font-size: 1.8rem;
+  .locations-text h2 {
+    font-size: 2.2rem;
   }
   
   .loan-grid {
@@ -891,110 +921,26 @@
     width: 100%;
   }
 }
-/* Add these styles to your existing Loans.css */
 
-.white-text {
-  color: #FFFFFF !important;
-}
-
-.orange-text {
-  color: #D97706 !important;
-}
-
-/* Branch Cards */
-.branches-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-  gap: 30px;
-  margin-top: 40px;
-}
-
-.branch-card {
-  background: white;
-  border-radius: 16px;
-  overflow: hidden;
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
-  transition: all 0.3s ease;
-}
-
-.branch-card:hover {
-  transform: translateY(-5px);
-  box-shadow: 0 15px 40px rgba(0, 0, 0, 0.12);
-}
-
-.branch-image {
-  height: 200px;
-  overflow: hidden;
-}
-
-.branch-image img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  transition: transform 0.5s ease;
-}
-
-.branch-card:hover .branch-image img {
-  transform: scale(1.05);
-}
-
-.branch-details {
-  padding: 25px;
-}
-
-.branch-details h3 {
-  font-size: 1.4rem;
-  margin-bottom: 15px;
-  color: var(--dark);
-}
-
-.branch-info {
-  display: flex;
-  flex-direction: column;
-  gap: 12px;
-}
-
-.info-item {
-  display: flex;
-  align-items: flex-start;
-  gap: 10px;
-}
-
-.info-icon {
-  color: var(--primary);
-  margin-top: 2px;
-  flex-shrink: 0;
-}
-
-/* Loan Card Images */
-.card-image {
-  height: 200px;
-  position: relative;
-  overflow: hidden;
-}
-
-.card-image img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  transition: transform 0.5s ease;
-}
-
-.loan-card:hover .card-image img {
-  transform: scale(1.05);
-}
-
-.image-overlay {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background: linear-gradient(to bottom, rgba(0,0,0,0.1), rgba(0,0,0,0.3));
-}
-
-/* Process Section Text Colors */
-.process-step h3,
-.process-step p {
-  color: white;
+@media (max-width: 480px) {
+  .intro-text h1 {
+    font-size: 2rem;
+  }
+  
+  .section-header h2 {
+    font-size: 1.8rem;
+  }
+  
+  .locations-text h2 {
+    font-size: 1.8rem;
+  }
+  
+  .branch-details {
+    padding: 20px;
+  }
+  
+  .branch-details h3 {
+    font-size: 1.3rem;
+    min-height: auto;
+  }
 }
