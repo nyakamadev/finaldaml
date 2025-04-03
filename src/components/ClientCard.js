@@ -3,96 +3,34 @@ import mg4Image from '../assets/mel.jpg'; // Import the local image
 
 const ClientCard = () => {
   return (
-    <div style={{ 
-      padding: '4rem 2rem', // Original desktop padding
-      maxWidth: '1200px',
-      margin: '0 auto',
-      fontFamily: 'Arial, sans-serif'
-    }}>
-      <div style={{ 
-        display: 'flex',
-        gap: '3rem',
-        flexWrap: 'wrap',
-        alignItems: 'center',
-        backgroundColor: '#ffffff',
-        borderRadius: '10px',
-        padding: '3rem',
-        boxShadow: '0 4px 6px rgba(0, 0, 0, 0.1)',
-        maxWidth: '100%' // Prevent overflow on large screens
-      }}>
+    <div className="flex justify-center p-8">
+      <div className="flex flex-wrap items-center bg-white rounded-lg shadow-lg max-w-5xl p-6 md:p-12">
         {/* Left Image Container */}
-        <div style={{ 
-          flex: 1,
-          minWidth: '300px',
-          height: '400px',
-          background: `url(${mg4Image}) center/cover no-repeat`, // Use the imported image
-          borderRadius: '10px',
-          display: 'flex',
-          alignItems: 'center',
-          justifyContent: 'center',
-          position: 'relative',
-          overflow: 'hidden'
-        }} />
-
+        <div className="flex-1 min-w-[300px] h-[400px] bg-cover bg-center rounded-lg" style={{ backgroundImage: `url(${mg4Image})` }}></div>
+        
         {/* Right Text Content */}
-        <div style={{ 
-          flex: 1,
-          minWidth: '300px',
-          paddingLeft: '2rem'
-        }}>
-          <h2 style={{ 
-            fontSize: '2.5rem',
-            color: '#333',
-            marginBottom: '1.5rem',
-            lineHeight: '1.2',
-            fontWeight: '600'
-          }}>
-            Already a<br />
-            <span style={{ color: '#D97706' }}>client?</span>
+        <div className="flex-1 min-w-[300px] md:pl-8 mt-6 md:mt-0">
+          <h2 className="text-4xl font-semibold text-gray-800 leading-tight mb-4">
+            Already a <br /><span className="text-yellow-600">client?</span>
           </h2>
           
-          <div style={{ marginBottom: '2rem' }}>
-            <p style={{ 
-              fontSize: '1.25rem',
-              color: '#444',
-              marginBottom: '1rem',
-              fontWeight: '500'
-            }}>
-              Make Payments using Airtel Money any time 24/7
-            </p>
-            
-            <p style={{ 
-              fontSize: '1rem',
-              color: '#666',
-              lineHeight: '1.6',
-              marginBottom: '1rem'
-            }}>
-              Follow the steps Below<br />
-              Dial <strong>*115#</strong> Select Option <br/> 4 <strong>'Make payment'</strong>
-              <br /> Then option 6 <strong>'Goods and Services'</strong>  
-              <br/>Next Option 1 <strong>'Enter Merchant Code'</strong>
-              <br/> Enter: <strong>DIRECTAML</strong> as 'Merchant Code'
-              <br/> Enter: <strong>Amount to pay</strong>
-              <br/> Enter: <strong>Your NRC No. eg. ******/**/* and Branch name eg Mbala</strong> <br/>
-              Are you Stuck??  <br/>Call us <strong>+260777518123</strong>
-            </p>
-          </div>
-
-          <button style={{ 
-            backgroundColor: '#D97706',
-            color: 'white',
-            padding: '12px 30px',
-            borderRadius: '25px',
-            border: 'none',
-            fontSize: '1rem',
-            cursor: 'pointer',
-            fontWeight: '600',
-            transition: 'all 0.3s ease',
-            ':hover': {
-              transform: 'translateY(-2px)',
-              boxShadow: '0 5px 15px rgba(221, 50, 39, 0.3)'
-            }
-          }}>
+          <p className="text-lg text-gray-700 font-medium mb-4">
+            Make Payments using Airtel Money any time 24/7
+          </p>
+          
+          <p className="text-gray-600 text-base leading-relaxed">
+            Follow the steps below:<br />
+            Dial <strong>*115#</strong> and select Option <strong>4</strong> ('Make payment')<br />
+            Then select Option <strong>6</strong> ('Goods and Services')<br />
+            Next, select Option <strong>1</strong> ('Enter Merchant Code')<br />
+            Enter: <strong>DIRECTAML</strong> as the Merchant Code<br />
+            Enter: <strong>Amount to pay</strong><br />
+            Enter: <strong>Your NRC No. (******/***) and Branch name (e.g., Mbala)</strong><br />
+            <br />
+            Are you stuck? Call us at <strong>+260777518123</strong>
+          </p>
+          
+          <button className="mt-6 bg-yellow-600 text-white font-semibold py-2 px-6 rounded-full shadow-md hover:shadow-lg transition duration-300">
             Contact us
           </button>
         </div>
