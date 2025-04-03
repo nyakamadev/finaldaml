@@ -1,129 +1,274 @@
 /* HowItWorks.css */
-.how-it-works {
-  background: var(--light);
+:root {
+  --primary: #2563eb;
+  --primary-light: #3b82f6;
+  --primary-dark: #1d4ed8;
+  --secondary: #f59e0b;
+  --secondary-light: #fbbf24;
+  --secondary-dark: #d97706;
+  --dark: #1f2937;
+  --light: #f9fafb;
+  --gray: #6b7280;
+  --light-gray: #e5e7eb;
+  --success: #10b981;
+  --white: #ffffff;
+  --black: #000000;
+}
+
+.how-it-works-page {
   font-family: 'Poppins', sans-serif;
+  background-color: var(--light);
 }
 
-/* Steps Section */
-.steps-section {
-  padding: 60px 20px;
+/* Process Section */
+.process-section {
+  padding: 100px 20px;
+  position: relative;
+}
+
+.process-background {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
+  z-index: 1;
+}
+
+.process-content {
+  position: relative;
+  z-index: 2;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.section-header {
   text-align: center;
+  margin-bottom: 60px;
 }
 
-.section-title {
+.section-header h2 {
   font-size: 2.5rem;
+  margin-bottom: 15px;
   font-weight: 700;
-  color: var(--primary);
-  margin-bottom: 40px;
 }
 
-.highlight {
+.white-text {
+  color: var(--white);
+}
+
+.orange-text {
   color: var(--secondary);
 }
 
-.steps-container {
-  display: flex;
-  justify-content: center;
-  gap: 40px;
-  flex-wrap: wrap;
-  max-width: 1200px;
-  margin: 0 auto;
-  position: relative;
+.section-header p {
+  font-size: 1.1rem;
+  max-width: 600px;
+  margin: 0 auto 20px;
 }
 
-.step-card {
-  width: 250px;
-  padding: 24px;
-  background: white;
-  border-radius: 12px;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+.header-decoration {
+  width: 80px;
+  height: 4px;
+  background: linear-gradient(to right, var(--primary), var(--secondary));
+  margin: 0 auto;
+  border-radius: 2px;
+}
+
+.header-decoration.light {
+  background: linear-gradient(to right, var(--white), rgba(255, 255, 255, 0.7));
+}
+
+.process-steps {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 30px;
+  margin-top: 50px;
+}
+
+.process-step {
+  background: rgba(255, 255, 255, 0.1);
+  padding: 40px 30px;
+  border-radius: 16px;
+  backdrop-filter: blur(5px);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  transition: all 0.3s ease;
   text-align: center;
-  position: relative;
-  transition: transform 0.2s ease;
+  color: white;
+}
+
+.process-step:hover {
+  background: rgba(255, 255, 255, 0.15);
+  transform: translateY(-5px);
 }
 
 .step-number {
-  display: inline-flex;
+  width: 50px;
+  height: 50px;
+  background: white;
+  color: var(--primary);
+  border-radius: 50%;
+  display: flex;
   align-items: center;
   justify-content: center;
-  width: 48px;
-  height: 48px;
-  background: var(--secondary);
-  color: white;
-  border-radius: 50%;
   font-size: 1.5rem;
-  font-weight: 600;
-  margin-bottom: 16px;
+  font-weight: 700;
+  margin: 0 auto 20px;
 }
 
-.step-title {
-  font-size: 1.3rem;
-  font-weight: 600;
+.step-icon {
+  width: 60px;
+  height: 60px;
+  background-color: white;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto 20px;
   color: var(--primary);
-  margin-bottom: 12px;
+  font-size: 1.5rem;
 }
 
-.step-description {
-  font-size: 1rem;
+.process-step h3 {
+  font-size: 1.5rem;
+  margin-bottom: 15px;
+}
+
+.process-step p {
+  opacity: 0.9;
+  line-height: 1.6;
+  font-size: 1.1rem;
+}
+
+/* Collateral Section */
+.collateral-section {
+  padding: 80px 20px;
+  background-color: var(--white);
+}
+
+.collateral-content {
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.collateral-card {
+  background: var(--light);
+  padding: 40px;
+  border-radius: 16px;
+  text-align: center;
+  max-width: 800px;
+  margin: 0 auto;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+}
+
+.collateral-card h3 {
+  font-size: 1.8rem;
+  color: var(--primary);
+  margin-bottom: 20px;
+}
+
+.collateral-card p {
+  font-size: 1.1rem;
   color: var(--gray);
-  line-height: 1.5;
+  margin-bottom: 20px;
+  max-width: 600px;
+  margin-left: auto;
+  margin-right: auto;
 }
 
-.step-connector {
+.collateral-card ul {
+  list-style: none;
+  padding: 0;
+  margin: 30px 0;
+  display: inline-block;
+  text-align: left;
+}
+
+.collateral-card li {
+  font-size: 1.1rem;
+  color: var(--dark);
+  margin-bottom: 15px;
+  position: relative;
+  padding-left: 30px;
+}
+
+.collateral-card li:before {
+  content: "•";
   position: absolute;
-  top: 24px;
-  right: -40px;
-  width: 40px;
-  height: 2px;
-  background: linear-gradient(90deg, var(--secondary), transparent);
-  z-index: -1;
+  left: 10px;
+  color: var(--secondary);
+  font-size: 1.5rem;
+  line-height: 0;
+}
+
+.cta-button {
+  background: linear-gradient(to right, var(--primary), var(--primary-light));
+  color: white;
+  border: none;
+  padding: 14px 28px;
+  border-radius: 8px;
+  font-size: 1.1rem;
+  font-weight: 600;
+  cursor: pointer;
+  margin-top: 20px;
+  box-shadow: 0 4px 15px rgba(37, 99, 235, 0.3);
+}
+
+.cta-button:hover {
+  background: linear-gradient(to right, var(--primary-light), var(--primary));
 }
 
 /* Responsive Design */
 @media (max-width: 768px) {
-  .steps-section {
-    padding: 40px 20px;
+  .process-section {
+    padding: 80px 20px;
   }
-
-  .section-title {
+  
+  .section-header h2 {
     font-size: 2rem;
   }
-
-  .steps-container {
-    gap: 30px;
+  
+  .process-steps {
+    grid-template-columns: 1fr;
+    max-width: 500px;
+    margin-left: auto;
+    margin-right: auto;
   }
-
-  .step-card {
-    width: 220px;
-    padding: 20px;
+  
+  .collateral-card {
+    padding: 30px 20px;
   }
-
-  .step-number {
-    width: 40px;
-    height: 40px;
-    font-size: 1.3rem;
-  }
-
-  .step-title {
-    font-size: 1.2rem;
-  }
-
-  .step-description {
-    font-size: 0.95rem;
-  }
-
-  .step-connector {
-    display: none;
+  
+  .collateral-card h3 {
+    font-size: 1.5rem;
   }
 }
 
 @media (max-width: 480px) {
-  .section-title {
+  .section-header h2 {
     font-size: 1.8rem;
   }
-
-  .step-card {
-    width: 100%;
-    max-width: 300px;
+  
+  .process-step {
+    padding: 30px 20px;
+  }
+  
+  .collateral-card {
+    padding: 25px 15px;
+  }
+  
+  .collateral-card h3 {
+    font-size: 1.3rem;
+  }
+  
+  .collateral-card p,
+  .collateral-card li {
+    font-size: 1rem;
+  }
+  
+  .cta-button {
+    font-size: 1rem;
+    padding: 12px 24px;
   }
 }
