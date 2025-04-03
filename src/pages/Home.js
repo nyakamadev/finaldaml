@@ -6,8 +6,8 @@ import Footer from "../components/Footer";
 import Trends from "../components/Trends";
 import ClientCard from "../components/ClientCard";
 import NewsSection from "../components/NewsSection";
-import TestimonialSlider from "../components/TestimonialSlider";
 import "./Home.css";
+import TestimonialSlider from "../components/TestimonialSlider";
 
 const Home = () => {
   const [forexRates, setForexRates] = useState(null);
@@ -18,13 +18,6 @@ const Home = () => {
   const [toCurrency, setToCurrency] = useState("ZMW");
   const [convertedAmount, setConvertedAmount] = useState(null);
   const [isForexOpen, setIsForexOpen] = useState(false);
-
-  // Loan Calculator State
-  const [loanAmount, setLoanAmount] = useState("");
-  const [interestRate, setInterestRate] = useState("");
-  const [loanTerm, setLoanTerm] = useState("");
-  const [monthlyPayment, setMonthlyPayment] = useState(null);
-  const [totalRepayment, setTotalRepayment] = useState(null);
 
   useEffect(() => {
     const fetchForexRates = async () => {
@@ -65,26 +58,6 @@ const Home = () => {
     }
 
     setConvertedAmount(`${result.toFixed(2)} ${toCurrency}`);
-  };
-
-  // Loan Calculator Logic
-  const calculateLoan = () => {
-    const principal = parseFloat(loanAmount);
-    const rate = parseFloat(interestRate) / 100 / 12; // Monthly interest rate
-    const term = parseFloat(loanTerm);
-
-    if (isNaN(principal) || isNaN(rate) || isNaN(term) || principal <= 0 || rate < 0 || term <= 0) {
-      setMonthlyPayment("Please enter valid values");
-      setTotalRepayment(null);
-      return;
-    }
-
-    // Monthly payment formula: P * [r(1 + r)^n] / [(1 + r)^n - 1]
-    const monthly = (principal * rate * Math.pow(1 + rate, term)) / (Math.pow(1 + rate, term) - 1);
-    const total = monthly * term;
-
-    setMonthlyPayment(monthly.toFixed(2));
-    setTotalRepayment(total.toFixed(2));
   };
 
   const currencies = ["USD", "GBP", "EUR", "ZAR", "ZMW"];
@@ -203,67 +176,15 @@ const Home = () => {
       </section>
 
       <Trends />
-
+      
       <section className="additional-content">
         <motion.div className="section-title" initial={{ opacity: 0 }} whileInView={{ opacity: 1 }} transition={{ duration: 0.8 }} viewport={{ once: true }}>
-          <h2>Loan <span className="highlight">Calculator</span></h2>
+          <h2>More About <span className="highlight">Us</span></h2>
           <div className="title-decoration"></div>
         </motion.div>
-        <motion.div
-          className="loan-calculator"
-          initial={{ opacity: 0, y: 50 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8 }}
-          viewport={{ once: true }}
-        >
-          <div className="calculator-inputs">
-            <div className="input-group">
-              <label>Loan Amount (ZMW)</label>
-              <input
-                type="number"
-                value={loanAmount}
-                onChange={(e) => setLoanAmount(e.target.value)}
-                placeholder="e.g., 5000"
-                className="calculator-input"
-              />
-            </div>
-            <div className="input-group">
-              <label>Interest Rate (%)</label>
-              <input
-                type="number"
-                value={interestRate}
-                onChange={(e) => setInterestRate(e.target.value)}
-                placeholder="e.g., 15"
-                className="calculator-input"
-              />
-            </div>
-            <div className="input-group">
-              <label>Loan Term (Months)</label>
-              <input
-                type="number"
-                value={loanTerm}
-                onChange={(e) => setLoanTerm(e.target.value)}
-                placeholder="e.g., 12"
-                className="calculator-input"
-              />
-            </div>
-          </div>
-          <motion.button
-            whileHover={{ scale: 1.05 }}
-            whileTap={{ scale: 0.95 }}
-            onClick={calculateLoan}
-            className="calculate-button"
-          >
-            Calculate
-          </motion.button>
-          {monthlyPayment && (
-            <div className="calculator-result">
-              <p>Monthly Payment: <span>ZMW {monthlyPayment}</span></p>
-              {totalRepayment && <p>Total Repayment: <span>ZMW {totalRepayment}</span></p>}
-            </div>
-          )}
-          <p className="calculator-note">Note: This is an estimate. Contact us for exact terms.</p>
-        </motion.div>
+        <p className="content-description">
+          Since 2019, Direct Access Money Lending has empowered Zambians with accessible financial solutions, transparent terms, and exceptional service.
+        </p>
       </section>
 
       <section className="stats-section">
@@ -314,7 +235,7 @@ const Home = () => {
 
       <ClientCard />
       <NewsSection />
-      <TestimonialSlider />
+      <TestimonialSlider/>
       <Footer />
     </div>
   );
