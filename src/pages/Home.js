@@ -92,9 +92,9 @@ const Home = () => {
     { icon: <FaUsers />, title: "Trusted Support", description: "Friendly staff across our branches." },
   ];
   const stats = [
-    { value: "10K+", label: "Loans Disbursed" },
-    { value: "15K+", label: "Happy Clients" },
-    { value: "4", label: "Branches" },
+    { value: "20k+", label: "Loans Disbursed" },
+    { value: "10K+", label: "Happy Clients" },
+    { value: "6", label: "Branches" },
     { value: "ZMW 50M+", label: "Amount Lent" },
   ];
 

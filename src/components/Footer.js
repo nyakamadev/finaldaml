@@ -1,6 +1,7 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
 import { FaFacebookF, FaWhatsapp } from "react-icons/fa";
+import logo from "../assets/logo.png";
 import "../styles/Footer.css";
 
 const Footer = () => {
@@ -8,10 +9,6 @@ const Footer = () => {
 
   const goToContact = () => {
     navigate("/contact");
-  };
-
-  const goToAdmin = () => {
-    navigate("/admin");
   };
 
   return (
@@ -40,11 +37,11 @@ const Footer = () => {
 
         {/* Center column */}
         <div className="footer-center">
-          <p>
-          room 4 Napsa Building Monze <br />
-          Call: +260 777518123  <br />
-
-          </p>
+          <p><strong>Lusaka Office:</strong> +260 773946189</p>
+          <p><strong>Monze Office:</strong> +260 771374032</p>
+          <p><strong>Mazabuka Office:</strong> +260 777518123</p>
+          <p><strong>Direct Access Lumezi:</strong> +260 778517912</p>
+          <p><strong>Direct Access Nakonde:</strong> +260 778517914</p>
         </div>
 
         {/* Right column */}
@@ -54,15 +51,11 @@ const Footer = () => {
               <FaFacebookF />
               <FaWhatsapp />
             </div>
-            <img className="footer-logo" src="/logo.png" alt="Direct Access Money Lending" />
-            <button className="manage-button" onClick={goToAdmin}>
-              Manage
-            </button>
+            <img className="footer-logo" src={logo} alt="Direct Access Money Lending" />
           </div>
 
           <div className="credits">
-            <p>Website by Chanda Mwika <br /> Mpange Creative Arts © 2025</p>
-            <p>Mpangenshi? Call +26 0972276257</p>
+            <p>All Rights Reserved<br />Direct Access Money Lending © 2025</p>
           </div>
         </div>
       </div>
