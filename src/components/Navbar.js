@@ -66,10 +66,6 @@ const Navbar = () => {
               </li>
             ))}
           </ul>
-          <div className="navbar-buttons">
-            <button className="btn">Sign In</button>
-            <button className="btn primary">Apply Now</button>
-          </div>
         </div>
       </div>
 
@@ -88,10 +84,6 @@ const Navbar = () => {
             </li>
           ))}
         </ul>
-        <div className="mobile-buttons">
-          <button className="btn">Sign In</button>
-          <button className="btn primary">Apply Now</button>
-        </div>
       </div>
     </nav>
   );

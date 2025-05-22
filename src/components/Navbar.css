@@ -87,48 +87,6 @@
   background-color: #d97706; /* Mustard Yellow underline */
 }
 
-/* Buttons */
-.navbar-buttons {
-  margin-left: 20px;
-}
-
-.btn {
-  padding: 10px 20px;
-  margin-left: 10px;
-  border: 2px solid #60a5fa; /* Light Blue */
-  background-color: transparent;
-  color: #60a5fa;
-  border-radius: 5px;
-  cursor: pointer;
-  transition: all 0.3s ease;
-  font-family: 'Poppins', sans-serif;
-}
-
-.btn.primary {
-  background-color: #d97706; /* Mustard Yellow */
-  border-color: #d97706;
-  color: #ffffff;
-}
-
-.navbar.scrolled .btn {
-  border-color: #ffffff;
-  color: #ffffff;
-}
-
-.navbar.scrolled .btn.primary {
-  background-color: #d97706;
-  border-color: #d97706;
-}
-
-.btn:hover {
-  background-color: #60a5fa; /* Light Blue */
-  color: #ffffff;
-}
-
-.btn.primary:hover {
-  background-color: #b45309; /* Darker Mustard */
-}
-
 /* Hamburger Menu */
 .hamburger {
   display: none;
@@ -216,14 +174,6 @@
   background-color: #d97706; /* Mustard Yellow underline */
 }
 
-.mobile-buttons {
-  margin-top: 20px;
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
-  padding: 0 20px; /* Align buttons with menu items */
-}
-
 /* Responsive Design */
 @media (max-width: 768px) {
   .desktop-nav {
@@ -259,14 +209,5 @@
   .mobile-menu li {
     padding: 12px 15px; /* Tighter padding for fit */
     font-size: 14px; /* Smaller text for fit */
-  }
-
-  .mobile-buttons {
-    padding: 0 15px; /* Match menu padding */
-  }
-
-  .btn {
-    padding: 8px 16px; /* Smaller buttons */
-    font-size: 14px;
   }
 }
