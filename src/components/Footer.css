@@ -94,13 +94,25 @@
   color: #ffffff;
 }
 
-.footer-center p {
+.footer-center h3 {
+  font-size: 1rem;
+  font-weight: 600;
+  margin-bottom: 0.75rem;
+}
+
+.contact-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.contact-list li {
   margin: 0.4rem 0;
   line-height: 1.4;
   font-weight: 400;
 }
 
-.footer-center strong {
+.contact-list strong {
   color: #D97706;
   font-weight: 600;
 }
@@ -127,18 +139,22 @@
   gap: 1rem;
 }
 
-.social-icons svg {
-  font-size: 1.25rem;
-  cursor: pointer;
+.social-icons a {
+  color: #fffb00; /* Default color white */
   transition: color 0.3s;
 }
 
-.social-icons svg:hover {
-  color: #D97706;
+.social-icons a:hover {
+  color: #D97706; /* Yellow on hover */
+}
+
+.social-icons svg {
+  font-size: 1.25rem;
+  cursor: pointer;
 }
 
 .footer-logo {
-  width: 100px;
+  width: 200px; /* Increased logo size */
   height: auto;
   object-fit: contain;
 }

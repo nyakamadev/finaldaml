@@ -11,6 +11,10 @@ const Footer = () => {
     navigate("/contact");
   };
 
+  const handleNoDocuments = () => {
+    alert("Nothing to see here, no documents yet");
+  };
+
   return (
     <footer className="footer-container">
       <div className="footer-inner">
@@ -24,32 +28,39 @@ const Footer = () => {
             <h3>How to get in touch</h3>
             <div className="touch-item" onClick={goToContact}>
               <div className="touch-icon">✉</div>
-              <span>GET IN TOUCH</span>
-            </div>
-            <div className="touch-item">
-              <div className="touch-icon">▶</div>
-              <a href="/doc-1.pdf" target="_blank" rel="noopener noreferrer" className="touch-link">
-                Documents and Resources
+              <a href="mailto:directaccessmoney.co.zm" className="touch-link">
+                GET IN TOUCH
               </a>
+            </div>
+            <div className="touch-item" onClick={handleNoDocuments}>
+              <div className="touch-icon">▶</div>
+              <span className="touch-link">Documents and Resources</span>
             </div>
           </div>
         </div>
 
         {/* Center column */}
         <div className="footer-center">
-          <p><strong>Lusaka Office:</strong> +260 773946189</p>
-          <p><strong>Monze Office:</strong> +260 771374032</p>
-          <p><strong>Mazabuka Office:</strong> +260 777518123</p>
-          <p><strong>Direct Access Lumezi:</strong> +260 778517912</p>
-          <p><strong>Direct Access Nakonde:</strong> +260 778517914</p>
+          <h3>Contact Us</h3>
+          <ul className="contact-list">
+            <li><strong>Lusaka Office:</strong> +260 773946189</li>
+            <li><strong>Monze Office:</strong> +260 771374032</li>
+            <li><strong>Mazabuka Office:</strong> +260 777518123</li>
+            <li><strong>Direct Access Lumezi:</strong> +260 778517912</li>
+            <li><strong>Direct Access Nakonde:</strong> +260 778517914</li>
+          </ul>
         </div>
 
         {/* Right column */}
         <div className="footer-right">
           <div className="social-and-logo">
             <div className="social-icons">
-              <FaFacebookF />
-              <FaWhatsapp />
+              <a href="https://www.facebook.com/daml09/" target="_blank" rel="noopener noreferrer">
+                <FaFacebookF />
+              </a>
+              <a href="https://wa.me/+260777518123" target="_blank" rel="noopener noreferrer">
+                <FaWhatsapp />
+              </a>
             </div>
             <img className="footer-logo" src={logo} alt="Direct Access Money Lending" />
           </div>
