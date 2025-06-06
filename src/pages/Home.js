@@ -1,6 +1,8 @@
+/* eslint-disable no-unused-vars */
 import React, { useState, useEffect } from "react";
 import { motion } from "framer-motion";
-import { FaMoneyBillWave, FaClock, FaUsers, FaArrowRight, FaExchangeAlt, FaTimes } from "react-icons/fa";
+import { useForm } from "react-hook-form";
+import { FaMoneyBillWave, FaClock, FaUsers, FaArrowRight, FaExchangeAlt, FaTimes, FaInfoCircle } from "react-icons/fa";
 import Hero from "../components/Hero";
 import Footer from "../components/Footer";
 import Trends from "../components/Trends";
@@ -20,12 +22,23 @@ const Home = () => {
   const [isForexOpen, setIsForexOpen] = useState(false);
 
   // Loan Calculator State
-  const [loanAmount, setLoanAmount] = useState("");
-  const [interestRate, setInterestRate] = useState("");
-  const [loanTerm, setLoanTerm] = useState("");
+  const { register, watch, setValue, formState: { errors } } = useForm({
+    defaultValues: {
+      loanAmount: "",
+      interestRate: "",
+      loanTerm: "",
+    },
+  });
   const [monthlyPayment, setMonthlyPayment] = useState(null);
   const [totalRepayment, setTotalRepayment] = useState(null);
+  const [totalInterest, setTotalInterest] = useState(null);
 
+  // Watch form values for real-time updates
+  const loanAmount = watch("loanAmount");
+  const interestRate = watch("interestRate");
+  const loanTerm = watch("loanTerm");
+
+  // Fetch Forex Rates
   useEffect(() => {
     const fetchForexRates = async () => {
       try {
@@ -46,44 +59,61 @@ const Home = () => {
     return () => clearInterval(interval);
   }, []);
 
-  const handleConvert = () => {
-    if (!forexRates || !amount || isNaN(amount)) {
-      setConvertedAmount("Please enter a valid amount");
-      return;
+  // Real-Time Forex Conversion
+  useEffect(() => {
+    const handleConvert = () => {
+      if (!forexRates || !amount || isNaN(amount)) {
+        setConvertedAmount(null);
+        return;
+      }
+
+      const amountNum = parseFloat(amount);
+      let result;
+
+      if (fromCurrency === "ZMW") {
+        result = amountNum * (forexRates[toCurrency] || 0);
+      } else if (toCurrency === "ZMW") {
+        result = amountNum / (forexRates[fromCurrency] || 1);
+      } else {
+        const zmwValue = amountNum / (forexRates[fromCurrency] || 1);
+        result = zmwValue * (forexRates[toCurrency] || 0);
+      }
+
+      setConvertedAmount(`${result.toFixed(2)} ${toCurrency}`);
+    };
+
+    if (amount && fromCurrency && toCurrency) {
+      handleConvert();
     }
+  }, [amount, fromCurrency, toCurrency, forexRates]);
 
-    const amountNum = parseFloat(amount);
-    let result;
+  // Real-Time Loan Calculation
+  useEffect(() => {
+    const calculateLoan = () => {
+      const principal = parseFloat(loanAmount);
+      const annualRate = parseFloat(interestRate) / 100;
+      const termMonths = parseFloat(loanTerm);
 
-    if (fromCurrency === "ZMW") {
-      result = amountNum * (forexRates[toCurrency] || 0);
-    } else if (toCurrency === "ZMW") {
-      result = amountNum / (forexRates[fromCurrency] || 1);
-    } else {
-      const zmwValue = amountNum / (forexRates[fromCurrency] || 1);
-      result = zmwValue * (forexRates[toCurrency] || 0);
+      if (!principal || !annualRate || !termMonths || principal <= 0 || annualRate < 0 || termMonths <= 0) {
+        setMonthlyPayment(null);
+        setTotalRepayment(null);
+        setTotalInterest(null);
+        return;
+      }
+
+      const totalInterestAmount = principal * annualRate * (termMonths / 12);
+      const totalRepaymentAmount = principal + totalInterestAmount;
+      const monthlyPaymentAmount = totalRepaymentAmount / termMonths;
+
+      setMonthlyPayment(monthlyPaymentAmount.toFixed(2));
+      setTotalRepayment(totalRepaymentAmount.toFixed(2));
+      setTotalInterest(totalInterestAmount.toFixed(2));
+    };
+
+    if (loanAmount && interestRate && loanTerm) {
+      calculateLoan();
     }
-
-    setConvertedAmount(`${result.toFixed(2)} ${toCurrency}`);
-  };
-
-  const calculateLoan = () => {
-    const principal = parseFloat(loanAmount);
-    const rate = parseFloat(interestRate) / 100 / 12; // Monthly interest rate
-    const term = parseFloat(loanTerm);
-
-    if (isNaN(principal) || isNaN(rate) || isNaN(term) || principal <= 0 || rate < 0 || term <= 0) {
-      setMonthlyPayment("Please enter valid positive values");
-      setTotalRepayment(null);
-      return;
-    }
-
-    const monthly = (principal * rate * Math.pow(1 + rate, term)) / (Math.pow(1 + rate, term) - 1);
-    const total = monthly * term;
-
-    setMonthlyPayment(monthly.toFixed(2));
-    setTotalRepayment(total.toFixed(2));
-  };
+  }, [loanAmount, interestRate, loanTerm]);
 
   const currencies = ["USD", "GBP", "EUR", "ZAR", "ZMW"];
   const features = [
@@ -126,6 +156,7 @@ const Home = () => {
               ) : (
                 <>
                   <div className="forex-rates">
+                    <h4>Current Rates (vs ZMW)</h4>
                     {["USD", "GBP", "EUR", "ZAR"].map((currency) => (
                       <div key={currency} className="rate-card">
                         <FaExchangeAlt className="rate-icon" />
@@ -134,6 +165,7 @@ const Home = () => {
                     ))}
                   </div>
                   <div className="converter-container">
+                    <h4>Convert Currency</h4>
                     <div className="converter-inputs">
                       <input
                         type="number"
@@ -149,7 +181,16 @@ const Home = () => {
                       >
                         {currencies.map((cur) => <option key={cur} value={cur}>{cur}</option>)}
                       </select>
-                      <span className="converter-arrow">➔</span>
+                      <button
+                        className="swap-button"
+                        onClick={() => {
+                          const temp = fromCurrency;
+                          setFromCurrency(toCurrency);
+                          setToCurrency(temp);
+                        }}
+                      >
+                        ⇄
+                      </button>
                       <select
                         value={toCurrency}
                         onChange={(e) => setToCurrency(e.target.value)}
@@ -158,15 +199,16 @@ const Home = () => {
                         {currencies.map((cur) => <option key={cur} value={cur}>{cur}</option>)}
                       </select>
                     </div>
-                    <motion.button
-                      whileHover={{ scale: 1.05 }}
-                      whileTap={{ scale: 0.95 }}
-                      onClick={handleConvert}
-                      className="convert-button"
-                    >
-                      Convert
-                    </motion.button>
-                    {convertedAmount && <p className="conversion-result">{convertedAmount}</p>}
+                    {convertedAmount && (
+                      <motion.p
+                        className="conversion-result"
+                        initial={{ opacity: 0 }}
+                        animate={{ opacity: 1 }}
+                        transition={{ duration: 0.3 }}
+                      >
+                        {convertedAmount}
+                      </motion.p>
+                    )}
                   </div>
                   <p className="forex-note">Updated: {new Date().toLocaleTimeString()}</p>
                 </>
@@ -204,7 +246,7 @@ const Home = () => {
 
       <section className="additional-content">
         <motion.div className="section-title" initial={{ opacity: 0 }} whileInView={{ opacity: 1 }} transition={{ duration: 0.8 }} viewport={{ once: true }}>
-          <h2>Loan <span className="highlight">Calculator</span></h2>
+          <h2>Flat Rate Loan <span className="highlight">Calculator</span></h2>
           <div className="title-decoration"></div>
         </motion.div>
         <motion.div
@@ -215,57 +257,88 @@ const Home = () => {
           viewport={{ once: true }}
         >
           <p className="calculator-intro">
-            Estimate your loan repayments in Zambian Kwacha (ZMW). Enter your desired loan amount, annual interest rate, and repayment term to see your monthly payments and total cost. This tool helps you plan your finances with ease!
+            Estimate your loan repayments with our <strong>flat interest rate</strong> calculator.
           </p>
           <div className="calculator-inputs">
             <div className="input-group">
               <label>Loan Amount (ZMW)</label>
               <input
+                type="range"
+                min="1000"
+                max="100000"
+                step="1000"
+                value={loanAmount || 1000}
+                onChange={(e) => setValue("loanAmount", e.target.value)}
+                className="calculator-slider"
+              />
+              <input
                 type="number"
-                value={loanAmount}
-                onChange={(e) => setLoanAmount(e.target.value)}
-                placeholder="e.g., 5000 - 50,000"
+                {...register("loanAmount", { required: true, min: 1000, max: 100000 })}
+                placeholder="e.g., 5000"
                 className="calculator-input"
               />
-              <span className="input-hint">Typical range: 1,000 - 100,000 ZMW</span>
+              {errors.loanAmount && <span className="error-text">Enter a value between 1,000 and 100,000</span>}
             </div>
             <div className="input-group">
               <label>Interest Rate (%)</label>
               <input
+                type="range"
+                min="5"
+                max="30"
+                step="0.5"
+                value={interestRate || 5}
+                onChange={(e) => setValue("interestRate", e.target.value)}
+                className="calculator-slider"
+              />
+              <input
                 type="number"
-                value={interestRate}
-                onChange={(e) => setInterestRate(e.target.value)}
-                placeholder="e.g., 10 - 25"
+                {...register("interestRate", { required: true, min: 5, max: 30 })}
+                placeholder="e.g., 15"
                 className="calculator-input"
               />
-              <span className="input-hint">Annual rate, e.g., 15%</span>
+              {errors.interestRate && <span className="error-text">Enter a value between 5 and 30</span>}
             </div>
             <div className="input-group">
               <label>Loan Term (Months)</label>
               <input
+                type="range"
+                min="3"
+                max="60"
+                step="1"
+                value={loanTerm || 3}
+                onChange={(e) => setValue("loanTerm", e.target.value)}
+                className="calculator-slider"
+              />
+              <input
                 type="number"
-                value={loanTerm}
-                onChange={(e) => setLoanTerm(e.target.value)}
-                placeholder="e.g., 6 - 36"
+                {...register("loanTerm", { required: true, min: 3, max: 60 })}
+                placeholder="e.g., 12"
                 className="calculator-input"
               />
-              <span className="input-hint">Typically 3 - 60 months</span>
+              {errors.loanTerm && <span className="error-text">Enter a value between 3 and 60</span>}
             </div>
           </div>
-          <motion.button
-            whileHover={{ scale: 1.05 }}
-            whileTap={{ scale: 0.95 }}
-            onClick={calculateLoan}
-            className="calculate-button"
-          >
-            Calculate Your Payment
-          </motion.button>
           {monthlyPayment && (
-            <div className="calculator-result">
-              <p>Monthly Payment: <span>ZMW {monthlyPayment}</span></p>
-              {totalRepayment && <p>Total Repayment: <span>ZMW {totalRepayment}</span></p>}
-              <p className="result-note">This is an estimate based on a fixed interest rate. Actual terms may vary.</p>
-            </div>
+            <motion.div
+              className="calculator-result"
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ duration: 0.5 }}
+            >
+              <div className="result-row">
+                <span>Monthly Payment:</span>
+                <span className="result-value">ZMW {monthlyPayment}</span>
+              </div>
+              <div className="result-row">
+                <span>Total Interest:</span>
+                <span className="result-value">ZMW {totalInterest}</span>
+              </div>
+              <div className="result-row">
+                <span>Total Repayment:</span>
+                <span className="result-value">ZMW {totalRepayment}</span>
+              </div>
+              <p className="result-note">Based on flat rate interest. Additional fees may apply.</p>
+            </motion.div>
           )}
           <p className="calculator-note">
             Need a custom loan plan? <a href="/contact" className="contact-link">Contact us</a> for personalized assistance.
